@@ -1,7 +1,6 @@
 import { signIn, useSession } from 'next-auth/react';
-import Hello from '@/components/Hello';
-import MainLayout from '@/layouts/MainLayout';
-import { trpc } from '@/lib/utils/trpc';
+import { trpc } from 'src/lib/utils/trpc';
+import Hello from 'src/components/Hello';
 
 export default function Home() {
   const { data, status } = useSession();
@@ -9,7 +8,7 @@ export default function Home() {
   const x = trpc.useQuery(['tasks']);
 
   return (
-    <MainLayout>
+    <>
       <div className="text-3xl">
         <div className="pt-5">
           <Hello />
@@ -31,6 +30,6 @@ export default function Home() {
         )}
       </div>
       <p>{JSON.stringify(x.data)}</p>
-    </MainLayout>
+    </>
   );
 }

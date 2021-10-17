@@ -10,7 +10,7 @@ function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
     method: "POST",
     ...({
   headers: {
-    Authorization: process.env.CANVAS_TOKEN,
+    Authorization: process.env.CANVAS_TOKEN as string,
     "Content-Type": "application/json"
   },
 }

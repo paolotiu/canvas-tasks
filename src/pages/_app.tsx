@@ -1,11 +1,9 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import { withTRPC } from '@trpc/next';
-import { AppRouter } from 'server';
+import { AppRouter } from 'src/server';
 
-const client = new QueryClient();
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <SessionProvider>

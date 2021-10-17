@@ -7,7 +7,7 @@
   },
   "extends": ["eslint-config-tiu", "next", "next/core-web-vitals"],
 
-  "ignorePatterns": ["types.ts", "*.js", "generated/graphql.ts"],
+  "ignorePatterns": ["types.ts", "*.js", "src/generated/graphql.ts"],
   "rules": {
     "import/extensions": "off"
   }

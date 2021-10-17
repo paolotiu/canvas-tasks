@@ -1,5 +1,5 @@
 // server/index.ts
-import { useAQuery } from 'generated/graphql';
+import { useAQuery } from 'src/generated/graphql';
 import { google } from 'googleapis';
 import { getSession } from 'next-auth/react';
 import { createRouter } from './createRouter';

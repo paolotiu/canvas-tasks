@@ -3,9 +3,9 @@ schema:
   - 'https://ateneo.instructure.com/api/graphql':
       headers:
         Authorization: ${CANVAS_TOKEN}
-documents: 'lib/**/*.query.ts'
+documents: 'src/lib/**/*.query.ts'
 generates:
-  generated/graphql.ts:
+  src/generated/graphql.ts:
     plugins:
       - 'typescript'
       - 'typescript-operations'
@@ -16,7 +16,7 @@ generates:
         fetchParams: >
           {
             headers: {
-              Authorization: process.env.CANVAS_TOKEN,
+              Authorization: process.env.CANVAS_TOKEN as string,
               "Content-Type": "application/json"
             },
           }
