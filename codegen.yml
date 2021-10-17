@@ -1,0 +1,23 @@
+overwrite: true
+schema:
+  - 'https://ateneo.instructure.com/api/graphql':
+      headers:
+        Authorization: ${CANVAS_TOKEN}
+documents: 'lib/**/*.query.ts'
+generates:
+  generated/graphql.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - typescript-react-query
+    config:
+      fetcher:
+        endpoint: https://ateneo.instructure.com/api/graphql
+        fetchParams: >
+          {
+            headers: {
+              Authorization: process.env.CANVAS_TOKEN,
+              "Content-Type": "application/json"
+            },
+          }
+      exposeFetcher: true
