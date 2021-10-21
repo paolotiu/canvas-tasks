@@ -1,9 +1,7 @@
-import { PrismaClient } from '@prisma/client';
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
-
-const prisma = new PrismaClient();
+import { prisma } from 'src/server/prisma';
 
 const scopes = [
   'https://www.googleapis.com/auth/tasks',
