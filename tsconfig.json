@@ -1,4 +1,6 @@
 {
+  // Tell typescript about the types folder
+  "types": ["src/types"],
   "compilerOptions": {
     "target": "es5",
     "lib": ["dom", "dom.iterable", "esnext"],

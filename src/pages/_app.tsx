@@ -1,13 +1,17 @@
-import '../styles/globals.css';
 import type { AppProps } from 'next/app';
 import { SessionProvider } from 'next-auth/react';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from 'src/server';
+import { IdProvider } from '@radix-ui/react-id';
+import globalStyles from '@/styles/globalStyles';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  globalStyles();
   return (
-    <SessionProvider>
-      <Component {...pageProps} />;
+    <SessionProvider session={pageProps.session}>
+      <IdProvider>
+        <Component {...pageProps} />
+      </IdProvider>
     </SessionProvider>
   );
 }
