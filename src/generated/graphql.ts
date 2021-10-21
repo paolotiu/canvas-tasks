@@ -4467,6 +4467,19 @@ export type AQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', name: string, assignmentsConnection?: { __typename?: 'AssignmentConnection', nodes?: Array<{ __typename?: 'Assignment', name?: string | null | undefined, dueAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined }> | null | undefined };
 
+export type AllCoursesAssigmentsQueryVariables = Exact<{
+  first: Scalars['Int'];
+  after?: Maybe<Scalars['String']>;
+}>;
+
+
+export type AllCoursesAssigmentsQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', courseCode?: string | null | undefined, id: string, name: string, assignmentsConnection?: { __typename?: 'AssignmentConnection', edges?: Array<{ __typename?: 'AssignmentEdge', node?: { __typename?: 'Assignment', dueAt?: any | null | undefined, id: string, hasSubmittedSubmissions?: boolean | null | undefined } | null | undefined } | null | undefined> | null | undefined } | null | undefined }> | null | undefined };
+
+export type AllCoursesIdQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllCoursesIdQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', id: string, _id: string }> | null | undefined };
+
 
 export const ADocument = `
     query A {
@@ -4494,3 +4507,55 @@ export const useAQuery = <
       options
     );
 useAQuery.fetcher = (variables?: AQueryVariables) => fetcher<AQuery, AQueryVariables>(ADocument, variables);
+export const AllCoursesAssigmentsDocument = `
+    query allCoursesAssigments($first: Int!, $after: String) {
+  allCourses {
+    courseCode
+    id
+    name
+    assignmentsConnection(first: $first, after: $after) {
+      edges {
+        node {
+          dueAt
+          id
+          hasSubmittedSubmissions
+        }
+      }
+    }
+  }
+}
+    `;
+export const useAllCoursesAssigmentsQuery = <
+      TData = AllCoursesAssigmentsQuery,
+      TError = unknown
+    >(
+      variables: AllCoursesAssigmentsQueryVariables,
+      options?: UseQueryOptions<AllCoursesAssigmentsQuery, TError, TData>
+    ) =>
+    useQuery<AllCoursesAssigmentsQuery, TError, TData>(
+      ['allCoursesAssigments', variables],
+      fetcher<AllCoursesAssigmentsQuery, AllCoursesAssigmentsQueryVariables>(AllCoursesAssigmentsDocument, variables),
+      options
+    );
+useAllCoursesAssigmentsQuery.fetcher = (variables: AllCoursesAssigmentsQueryVariables) => fetcher<AllCoursesAssigmentsQuery, AllCoursesAssigmentsQueryVariables>(AllCoursesAssigmentsDocument, variables);
+export const AllCoursesIdDocument = `
+    query allCoursesId {
+  allCourses {
+    id
+    _id
+  }
+}
+    `;
+export const useAllCoursesIdQuery = <
+      TData = AllCoursesIdQuery,
+      TError = unknown
+    >(
+      variables?: AllCoursesIdQueryVariables,
+      options?: UseQueryOptions<AllCoursesIdQuery, TError, TData>
+    ) =>
+    useQuery<AllCoursesIdQuery, TError, TData>(
+      variables === undefined ? ['allCoursesId'] : ['allCoursesId', variables],
+      fetcher<AllCoursesIdQuery, AllCoursesIdQueryVariables>(AllCoursesIdDocument, variables),
+      options
+    );
+useAllCoursesIdQuery.fetcher = (variables?: AllCoursesIdQueryVariables) => fetcher<AllCoursesIdQuery, AllCoursesIdQueryVariables>(AllCoursesIdDocument, variables);
