@@ -44,5 +44,7 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
+  canvasToken   String?
+  selectedCourseIds String[]
 }
 

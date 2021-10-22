@@ -1,7 +1,8 @@
-// server/index.ts
 import { useAQuery } from 'src/generated/graphql';
 import { google } from 'googleapis';
 import { getSession } from 'next-auth/react';
+import { tasksRouter } from 'src/modules/tasks';
+import { setupRouter } from 'src/modules/setup';
 import { createRouter } from './createRouter';
 
 const tasksService = google.tasks({
@@ -35,7 +36,7 @@ const assignments = createRouter()
     },
   });
 
-export const appRouter = createRouter().merge(assignments);
+export const appRouter = createRouter().merge(assignments).merge(tasksRouter).merge(setupRouter);
 
 // only export *type signature* of router!
 // to avoid accidentally importing your API

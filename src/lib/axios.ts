@@ -7,3 +7,8 @@ export const canvasAxios = axios.create({
     authorization: process.env.CANVAS_TOKEN as string,
   },
 });
+
+/**
+ * Create a canvasAxios instance populated with the given access token
+ */
+// export const getCanvasAxios =(token: string) =>  axios.create()

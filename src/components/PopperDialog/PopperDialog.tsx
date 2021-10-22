@@ -30,8 +30,8 @@ export const Content = styled(PopoverPrimitive.Content, {
     '&[data-state="open"]': {
       '&[data-side="top"]': { animation: createAnimation(slideDownAndFade) },
       '&[data-side="right"]': { animation: createAnimation(slideLeftAndFade) },
-      '&[data-side="bottom"]': { animationName: createAnimation(slideUpAndFade) },
-      '&[data-side="left"]': { animationName: createAnimation(slideRightAndFade) },
+      '&[data-side="bottom"]': { animation: createAnimation(slideUpAndFade) },
+      '&[data-side="left"]': { animation: createAnimation(slideRightAndFade) },
     },
   },
 });
