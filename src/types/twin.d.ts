@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable import/no-duplicates */
 import 'twin.macro';
-import { css as cssImport } from '@stitches/react';
+import { css as cssImport, styled as s } from '@stitches/react';
 import styledImport from '@stitches/react';
 
 // Support a css prop when used with twins styled.div({}) syntax
@@ -27,6 +27,6 @@ type StyledTags = {
 
 declare module 'twin.macro' {
   // The styled and css imports
-  const styled: typeof StyledTags | typeof styledImport;
+  const styled: typeof s;
   const css: typeof cssImport;
 }

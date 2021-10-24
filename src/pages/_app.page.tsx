@@ -3,6 +3,8 @@ import { SessionProvider } from 'next-auth/react';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from 'src/server';
 import { IdProvider } from '@radix-ui/react-id';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { inspect } from '@xstate/inspect';
 import globalStyles from '@/styles/globalStyles';
 
 function MyApp({ Component, pageProps }: AppProps) {
@@ -15,6 +17,12 @@ function MyApp({ Component, pageProps }: AppProps) {
     </SessionProvider>
   );
 }
+
+// if (typeof window !== 'undefined') {
+//   inspect({
+//     iframe: false,
+//   });
+// }
 
 export default withTRPC<AppRouter>({
   config({ ctx }) {

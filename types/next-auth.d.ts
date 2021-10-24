@@ -1,5 +1,7 @@
+/* eslint-disable @typescript-eslint/no-empty-interface */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import NextAuth from 'next-auth';
+import { User as PrismaUser } from '@prisma/client';
 
 declare module 'next-auth' {
   /**
@@ -11,8 +13,12 @@ declare module 'next-auth' {
       name: string;
       email: string;
       image: string;
+      id: string;
+      canvasToken: string | null;
     };
 
     accessToken?: string;
   }
+
+  interface User extends PrismaUser {}
 }

@@ -1,5 +1,6 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 import * as trpc from '@trpc/server';
+import { prisma } from './prisma';
 
 /**
  * Creates context for an incoming request
@@ -10,6 +11,7 @@ export const createContext = async ({ req, res }: trpcNext.CreateNextContextOpti
   return {
     req,
     res,
+    prisma,
   };
 };
 

@@ -23,6 +23,8 @@
     "@trpc/next": "^9.9.1",
     "@trpc/react": "^9.9.1",
     "@trpc/server": "^9.9.1",
+    "@xstate/inspect": "^0.5.0",
+    "@xstate/react": "^1.6.1",
     "autoprefixer": "^10.2.6",
     "axios": "^0.23.0",
     "babel-plugin-macros": "^3.1.0",
@@ -40,7 +42,9 @@
     "react-query": "^3.26.0",
     "tailwindcss": "^2.2.17",
     "twin.macro": "^2.8.0",
-    "use-debounce": "^7.0.0"
+    "use-debounce": "^7.0.0",
+    "xstate": "^4.25.0",
+    "zod": "^3.10.3"
   },
   "devDependencies": {
     "@graphql-codegen/cli": "2.2.1",

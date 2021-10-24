@@ -23,6 +23,8 @@ specifiers:
   '@types/react': 17.0.11
   '@typescript-eslint/eslint-plugin': ^4.27.0
   '@typescript-eslint/parser': ^4.27.0
+  '@xstate/inspect': ^0.5.0
+  '@xstate/react': ^1.6.1
   autoprefixer: ^10.2.6
   axios: ^0.23.0
   babel-plugin-macros: ^3.1.0
@@ -56,6 +58,8 @@ specifiers:
   twin.macro: ^2.8.0
   typescript: 4.3.4
   use-debounce: ^7.0.0
+  xstate: ^4.25.0
+  zod: ^3.10.3
 
 dependencies:
   '@next-auth/prisma-adapter': 0.5.2-next.19_844a57c290e3dd1cd5fc1df775e6b235
@@ -70,6 +74,8 @@ dependencies:
   '@trpc/next': 9.9.1_485351b28c67cfa388d6ae35ac69736e
   '@trpc/react': 9.9.1_8826713288b04dfce0b9db9877395df9
   '@trpc/server': 9.9.1
+  '@xstate/inspect': 0.5.0
+  '@xstate/react': 1.6.1_b4a2a56984aa541ca365169ea1642701
   autoprefixer: 10.3.7_postcss@8.3.9
   axios: 0.23.0
   babel-plugin-macros: 3.1.0
@@ -88,6 +94,8 @@ dependencies:
   tailwindcss: 2.2.17_96f83969316717847b3edf58a3f353f3
   twin.macro: 2.8.0
   use-debounce: 7.0.0_react@17.0.2
+  xstate: 4.25.0
+  zod: 3.10.3
 
 devDependencies:
   '@graphql-codegen/cli': 2.2.1_graphql@15.6.1+typescript@4.3.4
@@ -2445,6 +2453,34 @@ packages:
       eslint-visitor-keys: 2.1.0
     dev: true
 
+  /@xstate/inspect/0.5.0:
+    resolution: {integrity: sha512-AOCK513vmueAAM6bQCPrvlPdHaMH3X7AgvVr0pAYzFHvV2SBhPZCX9TQXRrOmIplqByRjb34puPUbYRjkmLHww==}
+    peerDependencies:
+      ws: ^7.3.1
+    dependencies:
+      fast-safe-stringify: 2.1.1
+    dev: false
+
+  /@xstate/react/1.6.1_b4a2a56984aa541ca365169ea1642701:
+    resolution: {integrity: sha512-M3b32nGhA0K3N6NrYKAMXx3dgGlLmuZfJU/EsZT04kQyVbWSiT3z7p9rdPisQyaQYFUwdqspQZ68wRNWbUkfVQ==}
+    peerDependencies:
+      '@xstate/fsm': ^1.0.0
+      react: ^16.8.0 || ^17.0.0
+      xstate: ^4.11.0
+    peerDependenciesMeta:
+      '@xstate/fsm':
+        optional: true
+      xstate:
+        optional: true
+    dependencies:
+      react: 17.0.2
+      use-isomorphic-layout-effect: 1.1.1_189cc19b8edfe5959338b863f6e5c247
+      use-subscription: 1.5.1_react@17.0.2
+      xstate: 4.25.0
+    transitivePeerDependencies:
+      - '@types/react'
+    dev: false
+
   /abab/2.0.5:
     resolution: {integrity: sha512-9IK9EadsbHo6jLWIpxpR6pL0sazTXV6+SQv25ZB+F7Bj9mJNaOc4nCRabwd5M/JwmUa8idz6Eci6eKfJryPs6Q==}
     dev: true
@@ -4447,6 +4483,10 @@ packages:
   /fast-levenshtein/2.0.6:
     resolution: {integrity: sha1-PYpcZog6FqMMqGQ+hR8Zuqd5eRc=}
     dev: true
+
+  /fast-safe-stringify/2.1.1:
+    resolution: {integrity: sha512-W+KJc2dmILlPplD/H4K9l9LcAHAfPtP6BY84uVLXQ6Evcz9Lcg33Y2z1IVblT6xdY54PXYVHEv+0Wpq8Io6zkA==}
+    dev: false
 
   /fast-text-encoding/1.0.3:
     resolution: {integrity: sha512-dtm4QZH9nZtcDt8qJiOH9fcQd1NAgi+K1O2DbE6GG1PPCK/BWfOH3idCTRQ4ImXRUOyopDEgDEnVEE7Y/2Wrig==}
@@ -8801,6 +8841,19 @@ packages:
       react: 17.0.2
     dev: false
 
+  /use-isomorphic-layout-effect/1.1.1_189cc19b8edfe5959338b863f6e5c247:
+    resolution: {integrity: sha512-L7Evj8FGcwo/wpbv/qvSfrkHFtOpCzvM5yl2KVyDJoylVuSvzphiiasmjgQPttIGBAy2WKiBNR98q8w7PiNgKQ==}
+    peerDependencies:
+      '@types/react': '*'
+      react: ^16.8.0 || ^17.0.0
+    peerDependenciesMeta:
+      '@types/react':
+        optional: true
+    dependencies:
+      '@types/react': 17.0.11
+      react: 17.0.2
+    dev: false
+
   /use-sidecar/1.0.5_react@17.0.2:
     resolution: {integrity: sha512-k9jnrjYNwN6xYLj1iaGhonDghfvmeTmYjAiGvOr7clwKfPjMXJf4/HOr7oT5tJwYafgp2tG2l3eZEOfoELiMcA==}
     engines: {node: '>=8.5.0'}
@@ -9066,6 +9119,10 @@ packages:
     resolution: {integrity: sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw==}
     dev: true
 
+  /xstate/4.25.0:
+    resolution: {integrity: sha512-qP7lc/ypOuuWME4ArOBnzaCa90TfHkjiqYDmxpiCjPy6FcXstInA2vH6qRVAHbPXRK4KQIYfIEOk1X38P+TldQ==}
+    dev: false
+
   /xtend/4.0.2:
     resolution: {integrity: sha512-LKYU1iAXJXUgAXn9URjiu+MWhyUXHsvfp7mcuYm9dSUKK0/CjtrUwFAxD82/mCWbtLsGjFIad0wIsod4zrTAEQ==}
     engines: {node: '>=0.4'}
@@ -9155,3 +9212,7 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+
+  /zod/3.10.3:
+    resolution: {integrity: sha512-ngMXcA/TNXnlXWAmAdH98U6rV5W0K8wNASafMIYUuOrBfwtO7LyPXaOi/riRZns1qfWuE1lHr7gt9N4rmyYFlQ==}
+    dev: false
