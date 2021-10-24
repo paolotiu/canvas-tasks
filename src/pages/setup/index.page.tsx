@@ -1,12 +1,10 @@
 import React, { useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { useInterpret, useSelector } from '@xstate/react';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from '@/components/Accordion';
+import { FiCheck } from 'react-icons/fi';
+import { styled } from 'twin.macro';
+import { keyframes } from '@stitches/react';
+import { Accordion, AccordionItem, AccordionTrigger } from '@/components/Accordion';
 import Token from './_Token';
 import { setupMachine } from '@/modules/setup/machine';
 import { MachineContext } from './MachineContext';
@@ -16,9 +14,28 @@ const ids = ['a-1', 'a-2', 'a-3'];
 const ValueMap: Record<string, string> = {
   verifyToken: ids[0],
 };
+
+const draw = keyframes({
+  from: {
+    strokeDashoffset: -23,
+  },
+  to: {
+    strokeDashoffset: 0,
+  },
+});
+const StyledCheckIcon = styled(FiCheck, {
+  '[data-state=closed] &': {
+    polyline: {
+      strokeDasharray: 23,
+      animation: `${draw} 500ms ease-in`,
+      animationFillMode: 'forwards',
+    },
+  },
+});
 const Setup = () => {
   const { data, status } = useSession();
   const setupService = useInterpret(setupMachine);
+  const hasFinishedToken = useSelector(setupService, (state) => state.context.hasFinishedToken);
   const currentValue = useSelector(setupService, (state) => state.value.toString());
 
   useEffect(() => {
@@ -39,16 +56,18 @@ const Setup = () => {
             value={ValueMap[currentValue] || ''}
           >
             <AccordionItem value={ids[0]}>
-              <AccordionTrigger>Enter your Canvas API Token </AccordionTrigger>
+              <AccordionTrigger icon={hasFinishedToken && <StyledCheckIcon tw="text-success" />}>
+                Enter your Canvas API Token{' '}
+              </AccordionTrigger>
               <Token />
             </AccordionItem>
 
-            <AccordionItem value={ids[1]}>
+            {/* <AccordionItem value={ids[1]}>
               <AccordionTrigger>Can it be animated?</AccordionTrigger>
               <AccordionContent>
                 Yes! You can animate the Accordion with CSS or JavaScript.
               </AccordionContent>
-            </AccordionItem>
+            </AccordionItem> */}
           </Accordion>
         </div>
       </main>

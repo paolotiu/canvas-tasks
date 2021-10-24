@@ -1,4 +1,4 @@
-const { slate, gray, mauve } = require('@radix-ui/colors');
+const { slate, gray, mauve, grass } = require('@radix-ui/colors');
 module.exports = {
   purge: ['./src/pages/**/*.{ts,tsx}', './src/components/**/*.{ts,tsx}'],
   darkMode: false, // or 'media' or 'class'
@@ -9,6 +9,7 @@ module.exports = {
         ...slate,
         ...gray,
         ...mauve,
+        success: grass.grass8,
       },
       boxShadow: {},
       maxWidth: {

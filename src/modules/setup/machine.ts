@@ -3,6 +3,7 @@ import { createModel } from 'xstate/lib/model';
 const setupModel = createModel(
   {
     canvasToken: '',
+    hasFinishedToken: false,
   },
   {
     events: {
@@ -15,6 +16,7 @@ const setupModel = createModel(
 const updateTokenAction = setupModel.assign(
   {
     canvasToken: (_, e) => e.canvasToken,
+    hasFinishedToken: (_, e) => !!e.canvasToken,
   },
   'updateToken'
 );
@@ -40,14 +42,14 @@ export const setupMachine = setupModel.createMachine(
       },
       verifyToken: {
         on: {
-          verified: 'configureCourses',
+          verified: 'finish',
           updateToken: {
             actions: updateTokenAction,
-            target: 'idle',
+            target: 'finish',
           },
         },
       },
-      configureCourses: {},
+      finish: {},
     },
   },
   {
