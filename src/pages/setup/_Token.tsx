@@ -65,7 +65,14 @@ const _Token = () => {
   const Status = statusMap[status];
 
   return (
-    <AccordionContent>
+    <AccordionContent
+      css={{
+        '&[data-state="closed"]': {
+          animationDuration: '700ms',
+          animationTimingFunction: 'ease-out',
+        },
+      }}
+    >
       <div tw="grid gap-2">
         <div tw="text-slate12">
           <h3 tw="font-medium text-lg pb-1">Enter Canvas Token</h3>

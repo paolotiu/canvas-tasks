@@ -3,7 +3,7 @@ import tw, { styled } from 'twin.macro';
 import React from 'react';
 import { keyframes } from '@stitches/react';
 import { blackA, mauve, violet } from '@radix-ui/colors';
-import { CheckCircledIcon, ChevronDownIcon } from '@radix-ui/react-icons';
+import { ChevronDownIcon } from '@radix-ui/react-icons';
 
 const slideDown = keyframes({
   from: { height: 0 },
@@ -93,16 +93,20 @@ export const AccordionTrigger = React.forwardRef<
   HTMLButtonElement,
   AccordionPrimitive.AccordionTriggerProps & {
     finished?: boolean;
+    icon?: React.ReactNode;
   }
->(({ children, finished = false, ...props }, forwardedRef) => (
-  <StyledHeader>
-    <StyledTrigger {...props} ref={forwardedRef}>
-      {children}
-      {/* <StyledChevron aria-hidden /> */}
-      {finished ? <CheckCircledIcon aria-hidden /> : <StyledChevron aria-hidden />}
-    </StyledTrigger>
-  </StyledHeader>
-));
+>(({ children, icon, ...props }, forwardedRef) => {
+  return (
+    <StyledHeader>
+      <StyledTrigger {...props} ref={forwardedRef}>
+        {children}
+        {/* <StyledChevron aria-hidden /> */}
+        {icon || <StyledChevron aria-hidden />}
+      </StyledTrigger>
+    </StyledHeader>
+  );
+});
+
 AccordionTrigger.displayName = 'AccordionTrigger';
 
 export const AccordionContent = React.forwardRef<

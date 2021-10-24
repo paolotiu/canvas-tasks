@@ -33,7 +33,13 @@ export const setupMachine = setupModel.createMachine(
         },
       },
       idle: {
-        always: [{ target: 'verifyToken', cond: 'doesNotHaveCanvasToken' }],
+        always: [
+          { target: 'verifyToken', cond: 'doesNotHaveCanvasToken' },
+          {
+            target: 'finished',
+            cond: 'hasCanvasToken',
+          },
+        ],
         on: {
           updateToken: {
             actions: updateTokenAction,
@@ -42,21 +48,21 @@ export const setupMachine = setupModel.createMachine(
       },
       verifyToken: {
         on: {
-          verified: 'finish',
+          verified: 'finished',
           updateToken: {
             actions: updateTokenAction,
-            target: 'finish',
+            target: 'idle',
           },
         },
       },
-      finish: {},
+      finished: {},
     },
   },
   {
     guards: {
-      // hasCanvasToken: (ctx) => {
-      //   return !!ctx.canvasToken;
-      // },
+      hasCanvasToken: (ctx) => {
+        return !!ctx.canvasToken;
+      },
       doesNotHaveCanvasToken: (ctx) => {
         return !ctx.canvasToken;
       },

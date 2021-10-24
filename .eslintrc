@@ -9,6 +9,7 @@
 
   "ignorePatterns": ["types.ts", "*.js", "src/generated/graphql.ts"],
   "rules": {
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "consistent-return": "off"
   }
 }

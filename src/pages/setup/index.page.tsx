@@ -4,10 +4,12 @@ import { useInterpret, useSelector } from '@xstate/react';
 import { FiCheck } from 'react-icons/fi';
 import { styled } from 'twin.macro';
 import { keyframes } from '@stitches/react';
+import { useRouter } from 'next/dist/client/router';
 import { Accordion, AccordionItem, AccordionTrigger } from '@/components/Accordion';
 import Token from './_Token';
 import { setupMachine } from '@/modules/setup/machine';
 import { MachineContext } from './MachineContext';
+import Confetti from '@/components/Confetti/Confetti';
 
 const ids = ['a-1', 'a-2', 'a-3'];
 
@@ -36,7 +38,9 @@ const Setup = () => {
   const { data, status } = useSession();
   const setupService = useInterpret(setupMachine);
   const hasFinishedToken = useSelector(setupService, (state) => state.context.hasFinishedToken);
+  const isFinished = useSelector(setupService, (state) => state.matches('finished'));
   const currentValue = useSelector(setupService, (state) => state.value.toString());
+  const router = useRouter();
 
   useEffect(() => {
     if (status !== 'loading') {
@@ -44,6 +48,17 @@ const Setup = () => {
     }
   }, [data?.user?.canvasToken, setupService, status]);
 
+  useEffect(() => {
+    const subscription = setupService.subscribe((state) => {
+      if (state.matches('finished')) {
+        setTimeout(() => {
+          router.push('/courses');
+        }, 2000);
+      }
+    });
+
+    return subscription.unsubscribe;
+  }, [router, setupService]);
   return (
     <MachineContext.Provider value={{ setupService }}>
       <main tw="grid min-h-screen bg-slate2 place-items-center">
@@ -70,6 +85,8 @@ const Setup = () => {
             </AccordionItem> */}
           </Accordion>
         </div>
+
+        {isFinished && <Confetti />}
       </main>
     </MachineContext.Provider>
   );
