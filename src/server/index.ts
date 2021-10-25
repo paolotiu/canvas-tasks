@@ -4,6 +4,8 @@ import { getSession } from 'next-auth/react';
 import { tasksRouter } from 'src/modules/tasks';
 import { setupRouter } from 'src/modules/setup';
 import { createRouter } from './createRouter';
+import { coursesRouter } from '@/modules/courses/router';
+import { announcementsRouter } from '@/modules/announcements';
 
 const tasksService = google.tasks({
   version: 'v1',
@@ -36,7 +38,12 @@ const assignments = createRouter()
     },
   });
 
-export const appRouter = createRouter().merge(assignments).merge(tasksRouter).merge(setupRouter);
+export const appRouter = createRouter()
+  .merge(assignments)
+  .merge(tasksRouter)
+  .merge(setupRouter)
+  .merge(coursesRouter)
+  .merge(announcementsRouter);
 
 // only export *type signature* of router!
 // to avoid accidentally importing your API
