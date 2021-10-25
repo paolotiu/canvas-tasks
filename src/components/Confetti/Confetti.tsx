@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import ConfettiGenerator from 'confetti-js';
-import { assetFactory } from './assetFactory';
 import getRandomConfettiFlavor from './confettiFlavor';
 
-interface Props {}
-
-const Confetti = (props: Props) => {
+const Confetti = () => {
   const [visible, setVisible] = useState(true);
   useEffect(() => {
     if (!visible) {
