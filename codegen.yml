@@ -9,15 +9,8 @@ generates:
     plugins:
       - 'typescript'
       - 'typescript-operations'
-      - typescript-react-query
+      # - typescript-react-query
+      - typescript-graphql-request
+
     config:
-      fetcher:
-        endpoint: https://ateneo.instructure.com/api/graphql
-        fetchParams: >
-          {
-            headers: {
-              Authorization: process.env.CANVAS_TOKEN as string,
-              "Content-Type": "application/json"
-            },
-          }
-      exposeFetcher: true
+      rawRequest: true

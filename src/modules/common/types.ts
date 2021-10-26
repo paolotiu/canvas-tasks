@@ -88,3 +88,12 @@ export interface RESTSelf {
 }
 
 export type PlannerItemList = Array<RESTPlannerItem>;
+
+export interface GQLRequestError {
+  response: {
+    status: number;
+    error: Array<{
+      message: string;
+    }>;
+  };
+}

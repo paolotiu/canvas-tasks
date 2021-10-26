@@ -1,34 +1,12 @@
-import { useQuery, UseQueryOptions } from 'react-query';
+import { GraphQLClient } from 'graphql-request';
+import * as Dom from 'graphql-request/dist/types.dom';
+import { GraphQLError } from 'graphql-request/dist/types';
+import { print } from 'graphql'
+import gql from 'graphql-tag';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
-
-function fetcher<TData, TVariables>(query: string, variables?: TVariables) {
-  return async (): Promise<TData> => {
-    const res = await fetch("https://ateneo.instructure.com/api/graphql", {
-    method: "POST",
-    ...({
-  headers: {
-    Authorization: process.env.CANVAS_TOKEN as string,
-    "Content-Type": "application/json"
-  },
-}
-),
-      body: JSON.stringify({ query, variables }),
-    });
-
-    const json = await res.json();
-
-    if (json.errors) {
-      const { message } = json.errors[0];
-
-      throw new Error(message);
-    }
-
-    return json.data;
-  }
-}
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -4467,6 +4445,11 @@ export type AQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', name: string, assignmentsConnection?: { __typename?: 'AssignmentConnection', nodes?: Array<{ __typename?: 'Assignment', name?: string | null | undefined, dueAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined }> | null | undefined };
 
+export type AllCoursesQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllCoursesQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', _id: string, courseCode?: string | null | undefined, name: string, id: string }> | null | undefined };
+
 export type AllCoursesAssigmentsQueryVariables = Exact<{
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
@@ -4481,7 +4464,7 @@ export type AllCoursesIdQueryVariables = Exact<{ [key: string]: never; }>;
 export type AllCoursesIdQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', id: string, _id: string }> | null | undefined };
 
 
-export const ADocument = `
+export const ADocument = gql`
     query A {
   allCourses {
     name
@@ -4494,20 +4477,17 @@ export const ADocument = `
   }
 }
     `;
-export const useAQuery = <
-      TData = AQuery,
-      TError = unknown
-    >(
-      variables?: AQueryVariables,
-      options?: UseQueryOptions<AQuery, TError, TData>
-    ) =>
-    useQuery<AQuery, TError, TData>(
-      variables === undefined ? ['A'] : ['A', variables],
-      fetcher<AQuery, AQueryVariables>(ADocument, variables),
-      options
-    );
-useAQuery.fetcher = (variables?: AQueryVariables) => fetcher<AQuery, AQueryVariables>(ADocument, variables);
-export const AllCoursesAssigmentsDocument = `
+export const AllCoursesDocument = gql`
+    query AllCourses {
+  allCourses {
+    _id
+    courseCode
+    name
+    id
+  }
+}
+    `;
+export const AllCoursesAssigmentsDocument = gql`
     query allCoursesAssigments($first: Int!, $after: String) {
   allCourses {
     courseCode
@@ -4525,20 +4505,7 @@ export const AllCoursesAssigmentsDocument = `
   }
 }
     `;
-export const useAllCoursesAssigmentsQuery = <
-      TData = AllCoursesAssigmentsQuery,
-      TError = unknown
-    >(
-      variables: AllCoursesAssigmentsQueryVariables,
-      options?: UseQueryOptions<AllCoursesAssigmentsQuery, TError, TData>
-    ) =>
-    useQuery<AllCoursesAssigmentsQuery, TError, TData>(
-      ['allCoursesAssigments', variables],
-      fetcher<AllCoursesAssigmentsQuery, AllCoursesAssigmentsQueryVariables>(AllCoursesAssigmentsDocument, variables),
-      options
-    );
-useAllCoursesAssigmentsQuery.fetcher = (variables: AllCoursesAssigmentsQueryVariables) => fetcher<AllCoursesAssigmentsQuery, AllCoursesAssigmentsQueryVariables>(AllCoursesAssigmentsDocument, variables);
-export const AllCoursesIdDocument = `
+export const AllCoursesIdDocument = gql`
     query allCoursesId {
   allCourses {
     id
@@ -4546,16 +4513,29 @@ export const AllCoursesIdDocument = `
   }
 }
     `;
-export const useAllCoursesIdQuery = <
-      TData = AllCoursesIdQuery,
-      TError = unknown
-    >(
-      variables?: AllCoursesIdQueryVariables,
-      options?: UseQueryOptions<AllCoursesIdQuery, TError, TData>
-    ) =>
-    useQuery<AllCoursesIdQuery, TError, TData>(
-      variables === undefined ? ['allCoursesId'] : ['allCoursesId', variables],
-      fetcher<AllCoursesIdQuery, AllCoursesIdQueryVariables>(AllCoursesIdDocument, variables),
-      options
-    );
-useAllCoursesIdQuery.fetcher = (variables?: AllCoursesIdQueryVariables) => fetcher<AllCoursesIdQuery, AllCoursesIdQueryVariables>(AllCoursesIdDocument, variables);
+
+export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, string>) => Promise<T>, operationName: string) => Promise<T>;
+
+
+const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
+const ADocumentString = print(ADocument);
+const AllCoursesDocumentString = print(AllCoursesDocument);
+const AllCoursesAssigmentsDocumentString = print(AllCoursesAssigmentsDocument);
+const AllCoursesIdDocumentString = print(AllCoursesIdDocument);
+export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
+  return {
+    A(variables?: AQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<AQuery>(ADocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'A');
+    },
+    AllCourses(variables?: AllCoursesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesQuery>(AllCoursesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllCourses');
+    },
+    allCoursesAssigments(variables: AllCoursesAssigmentsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesAssigmentsQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesAssigmentsQuery>(AllCoursesAssigmentsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allCoursesAssigments');
+    },
+    allCoursesId(variables?: AllCoursesIdQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesIdQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesIdQuery>(AllCoursesIdDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allCoursesId');
+    }
+  };
+}
+export type Sdk = ReturnType<typeof getSdk>;
