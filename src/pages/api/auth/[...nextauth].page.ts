@@ -3,12 +3,6 @@ import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
 import { prisma } from 'src/server/prisma';
 
-const scopes = [
-  'https://www.googleapis.com/auth/tasks',
-  'https://www.googleapis.com/auth/userinfo.email',
-  'https://www.googleapis.com/auth/userinfo.profile',
-];
-
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
 
@@ -17,15 +11,6 @@ export default NextAuth({
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-
-      authorization: {
-        params: {
-          scope: scopes.join(' '),
-          access_type: 'offline',
-          response_type: 'code',
-          prompt: 'consent',
-        },
-      },
     }),
   ],
 
