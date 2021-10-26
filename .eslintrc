@@ -10,6 +10,9 @@
   "ignorePatterns": ["types.ts", "*.js", "src/generated/graphql.ts"],
   "rules": {
     "import/extensions": "off",
-    "consistent-return": "off"
+    "consistent-return": "off",
+    "@typescript-eslint/no-empty-interface": "off",
+    "@typescript-eslint/dot-notation": "off",
+    "@typescript-eslint/ban-ts-comment": "off"
   }
 }
