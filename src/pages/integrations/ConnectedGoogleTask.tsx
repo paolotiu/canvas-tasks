@@ -1,12 +1,20 @@
 import React from 'react';
 import Image from 'next/image';
-import { SelectedTaskTypes } from '@prisma/client';
+import { ConnectedGoogleTask as ConnectedGoogleTaskType } from '@prisma/client';
 import Switch from '@/components/Switch/Switch';
 import { trpc } from '@/lib/utils/trpc';
 import { inferQueryOutput } from '@/modules/common/types/index';
 
-type TaskTypes = Exclude<keyof SelectedTaskTypes, 'userId' | 'integrationId'>;
-type TaskTypesBoolMap = Omit<SelectedTaskTypes, 'userId' | 'integrationId'>;
+type NonTaskTypes =
+  | 'userId'
+  | 'integrationId'
+  | 'createdAt'
+  | 'updatedAt'
+  | 'connectedTaskId'
+  | 'id';
+
+type TaskTypes = Exclude<keyof ConnectedGoogleTaskType, NonTaskTypes>;
+type TaskTypesBoolMap = Omit<ConnectedGoogleTaskType, NonTaskTypes>;
 
 const TaskTypeLabelMap: { [k in TaskTypes]: string } = {
   includeAssignments: 'Assignments',
@@ -42,7 +50,7 @@ type IntegrationsType = inferQueryOutput<'integrations'>;
 
 interface Props {
   item: IntegrationsType[0] & {
-    selectedTaskTypes: TaskTypesBoolMap;
+    connectedGoogleTask: TaskTypesBoolMap;
   };
 }
 
@@ -78,13 +86,13 @@ const ConnectedGoogleTask = ({ item }: Props) => {
       </div>
 
       <div tw="border-t pt-4 pb-3 text-sm font-medium space-y-5">
-        {Object.keys(item.selectedTaskTypes).map((taskType) => {
+        {Object.keys(item.connectedGoogleTask).map((taskType) => {
           return (
             <TaskTypeSwitch
               key={taskType}
               integrationId={item.id}
               taskType={taskType as TaskTypes}
-              defaultChecked={item.selectedTaskTypes[taskType as TaskTypes]}
+              defaultChecked={item.connectedGoogleTask[taskType as TaskTypes]}
             />
           );
         })}

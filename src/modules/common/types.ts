@@ -1,18 +1,17 @@
-import { AssignmentState } from '@/generated/graphql';
-
 interface RESTPlannerItemBase<PlannableType extends string, Plannable extends {}> {
   context_type: string;
   course_id: number;
   planner_override: RESTPlannerOverride | null;
   submissions: boolean; //
   /** In the form of `123` */
-  plannable_id: string;
+  plannable_id: number;
   /** In the form of `/courses/1/discussion_topics/8`*/
   html_url: string;
   //   plannable_type: 'discussion_topic' | 'assignment' | 'quiz' | 'wiki_page' | 'planner_note';
   plannable_type: PlannableType;
   plannable: Plannable;
   new_activity: boolean;
+  context_name: string;
 }
 
 export interface RESTPlannableAssignment {
@@ -43,7 +42,7 @@ export interface RESTPlannableQuiz {
   updated_at: Date;
   assignment_id: number;
   points_possible: number;
-  due_at: Date;
+  due_at?: Date;
 }
 
 type RESTPlannerItemAssignment = RESTPlannerItemBase<'assignment', RESTPlannableAssignment>;

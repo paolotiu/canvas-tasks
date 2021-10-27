@@ -2,6 +2,7 @@ import { z } from 'zod';
 import { google } from 'googleapis';
 import { createRouter } from '@/server/createRouter';
 import { googleAuth } from './utils/googleAuth';
+import { googletasksRouter } from './googletasks/router';
 
 export const integrationsRouter = createRouter()
   .query('integrations', {
@@ -15,7 +16,7 @@ export const integrationsRouter = createRouter()
           type: true,
           key: true,
 
-          selectedTaskTypes: {
+          connectedGoogleTask: {
             select: {
               includeAssignments: true,
               includeDiscussionTopics: true,
@@ -80,7 +81,7 @@ export const integrationsRouter = createRouter()
     }),
     resolve: async ({ ctx: { session, prisma }, input }) => {
       const { integrationId, ...fields } = input;
-      await prisma.selectedTaskTypes.update({
+      await prisma.connectedGoogleTask.update({
         where: {
           userId_integrationId: {
             integrationId: input.integrationId,
@@ -96,4 +97,5 @@ export const integrationsRouter = createRouter()
         message: 'Updated successfully!',
       };
     },
-  });
+  })
+  .merge('googletasks.', googletasksRouter);

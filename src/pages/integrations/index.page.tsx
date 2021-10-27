@@ -15,13 +15,12 @@ const Integrations = () => {
     const json = await res.json();
     window.location.href = json.url;
   });
-
   const { data } = trpc.useQuery(['integrations']);
 
   return (
     <MainLayout>
       {data?.map((item) => {
-        if (item.type === 'google_tasks' && item.selectedTaskTypes) {
+        if (item.type === 'google_tasks' && item.connectedGoogleTask) {
           return <ConnectedGoogleTask item={item as any} key={item.id} />;
         }
         return null;

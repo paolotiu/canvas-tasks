@@ -5,6 +5,11 @@ import { prisma } from '@/server/prisma';
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 const { google } = require('googleapis');
 
+/**
+ *
+ * @param credential Credential
+ * @returns
+ */
 export const googleAuth = (credential: any) => {
   if (!credential) return;
   const { client_secret, client_id, redirect_uris } = JSON.parse(

@@ -28,6 +28,23 @@ export const handler: NextApiHandler = async (req, res) => {
   const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
   const token = await oAuth2Client.getToken(code);
 
+  const tasks = google.tasks({
+    version: 'v1',
+  });
+
+  // Create new tasklist
+  const { data: taskList } = await tasks.tasklists.insert({
+    access_token: token.tokens.access_token || '',
+    requestBody: {
+      title: 'ICantvas',
+    },
+  });
+
+  if (typeof taskList.id !== 'string') {
+    res.status(400).json({ message: 'Failed to make a Google task list. Try again later.' });
+    return;
+  }
+
   const key = token.res?.data;
 
   const { id } = await prisma.credential.create({
@@ -38,10 +55,11 @@ export const handler: NextApiHandler = async (req, res) => {
     },
   });
 
-  await prisma.selectedTaskTypes.create({
+  await prisma.connectedGoogleTask.create({
     data: {
       integrationId: id,
       userId: session.user.id,
+      connectedTaskId: taskList.id,
     },
   });
 

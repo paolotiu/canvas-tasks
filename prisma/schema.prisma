@@ -36,15 +36,49 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-model User {
-  id            String    @id @default(cuid())
-  name          String?
-  email         String?   @unique
-  emailVerified DateTime?
-  image         String?
-  accounts      Account[]
-  sessions      Session[]
-  canvasToken   String?
-  selectedCourseIds String[]
+model Credential {
+  id                  String               @id @default(uuid())
+  type                String
+  key                 Json
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String
+  connectedGoogleTask ConnectedGoogleTask?
+
+  @@unique([id, userId])
 }
 
+model ConnectedGoogleTask {
+  id                      String        @id @default(uuid())
+  integration             Credential    @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  integrationId           String        @unique
+  user                    User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                  String
+  includeDiscussionTopics Boolean       @default(true)
+  includeAssignments      Boolean       @default(true)
+  includeQuizzes          Boolean       @default(true)
+  connectedTaskId         String
+  createdAt               DateTime      @default(now())
+  updatedAt               DateTime      @updatedAt
+  plannerItems            PlannerItem[]
+
+  @@unique([userId, integrationId])
+}
+
+model PlannerItem {
+  id                   String                @id
+  connectedGoogleTasks ConnectedGoogleTask[]
+}
+
+model User {
+  id                String                @id @default(cuid())
+  name              String?
+  email             String?               @unique
+  emailVerified     DateTime?
+  image             String?
+  accounts          Account[]
+  sessions          Session[]
+  canvasToken       String?
+  selectedCourseIds String[]
+  credentials       Credential[]
+  selectedTaskTypes ConnectedGoogleTask[]
+}
