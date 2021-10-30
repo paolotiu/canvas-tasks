@@ -23,9 +23,8 @@ const StyledThumb = styled(SwitchPrimitive.Thumb, {
 
 interface Props extends SwitchPrimitive.SwitchProps {}
 const Switch = (props: Props) => {
-  const id = useId();
   return (
-    <StyledSwitch id={id} {...props}>
+    <StyledSwitch {...props}>
       <StyledThumb />
     </StyledSwitch>
   );
