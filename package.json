@@ -32,6 +32,7 @@
     "axios": "^0.23.0",
     "babel-plugin-macros": "^3.1.0",
     "confetti-js": "^0.0.18",
+    "date-fns": "^2.25.0",
     "eslint-config-tiu": "^1.0.2",
     "googleapis": "^88.2.0",
     "graphql": "^15.6.1",

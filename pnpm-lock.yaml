@@ -35,6 +35,7 @@ specifiers:
   babel-plugin-macros: ^3.1.0
   babel-plugin-twin: ^1.0.2
   confetti-js: ^0.0.18
+  date-fns: ^2.25.0
   eslint: 7.28.0
   eslint-config-airbnb-typescript: ^12.3.1
   eslint-config-next: 11.0.0
@@ -92,6 +93,7 @@ dependencies:
   axios: 0.23.0
   babel-plugin-macros: 3.1.0
   confetti-js: 0.0.18
+  date-fns: 2.25.0
   eslint-config-tiu: 1.0.2_9d04f721cca6f8875ccfbacc3c38f8d2
   googleapis: 88.2.0
   graphql: 15.6.1
@@ -4552,6 +4554,11 @@ packages:
   /date-fns/1.30.1:
     resolution: {integrity: sha512-hBSVCvSmWC+QypYObzwGOd9wqdDpOt+0wl0KbU+R+uuZBS1jN8VsD1ss3irQDknRj5NvxiTF6oj/nDRnN/UQNw==}
     dev: true
+
+  /date-fns/2.25.0:
+    resolution: {integrity: sha512-ovYRFnTrbGPD4nqaEqescPEv1mNwvt+UTqI3Ay9SzNtey9NZnYu6E2qCcBBgJ6/2VF1zGGygpyTDITqpQQ5e+w==}
+    engines: {node: '>=0.11'}
+    dev: false
 
   /debounce/1.2.1:
     resolution: {integrity: sha512-XRRe6Glud4rd/ZGQfiV1ruXSfbvfJedlV9Y6zOlP+2K04vBYiJEte6stfFkCP03aMnY5tsipamumUjL14fofug==}
