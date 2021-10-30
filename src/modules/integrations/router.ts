@@ -21,6 +21,7 @@ export const integrationsRouter = createRouter()
               includeAssignments: true,
               includeDiscussionTopics: true,
               includeQuizzes: true,
+              updatedAt: true,
             },
           },
         },

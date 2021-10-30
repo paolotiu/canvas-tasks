@@ -73,8 +73,8 @@ https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynam
   );
 
   // Upsert planner items table
-  await prisma.$transaction(
-    plannerItems.map((item) =>
+  await prisma.$transaction([
+    ...plannerItems.map((item) =>
       prisma.plannerItem.upsert({
         where: {
           id: String(item.plannable_id),
@@ -95,6 +95,15 @@ https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynam
           },
         },
       })
-    )
-  );
+    ),
+
+    prisma.connectedGoogleTask.update({
+      where: {
+        id: connectedGoogleTask.id,
+      },
+      data: {
+        updatedAt: new Date(),
+      },
+    }),
+  ]);
 };

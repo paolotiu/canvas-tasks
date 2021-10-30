@@ -1,6 +1,10 @@
 import React from 'react';
 import Image from 'next/image';
+import { formatDistanceToNow, parseISO } from 'date-fns';
 import { ConnectedGoogleTask as ConnectedGoogleTaskType } from '@prisma/client';
+import { FiLoader } from 'react-icons/fi';
+import tw from 'twin.macro';
+import { useQueryClient } from 'react-query';
 import Switch from '@/components/Switch/Switch';
 import { trpc } from '@/lib/utils/trpc';
 import { inferQueryOutput } from '@/modules/common/types/index';
@@ -21,6 +25,7 @@ const TaskTypeLabelMap: { [k in TaskTypes]: string } = {
   includeDiscussionTopics: 'Discussions',
   includeQuizzes: 'Quizzes',
 };
+
 const TaskTypeSwitch = ({
   integrationId,
   taskType,
@@ -50,12 +55,21 @@ type IntegrationsType = inferQueryOutput<'integrations'>;
 
 interface Props {
   item: IntegrationsType[0] & {
-    connectedGoogleTask: TaskTypesBoolMap;
+    connectedGoogleTask: TaskTypesBoolMap & {
+      updatedAt: Date;
+    };
   };
 }
 
 const ConnectedGoogleTask = ({ item }: Props) => {
+  const queryClient = useQueryClient();
   const mutation = trpc.useMutation('deleteIntegration');
+  const syncTask = trpc.useMutation('googletasks.sync', {
+    onSuccess: () => {
+      queryClient.invalidateQueries('integrations');
+    },
+  });
+
   return (
     <div key={item.id} tw="p-4 bg-white shadow mb-10">
       <div tw="flex justify-between items-center pb-3">
@@ -87,6 +101,7 @@ const ConnectedGoogleTask = ({ item }: Props) => {
 
       <div tw="border-t pt-4 pb-3 text-sm font-medium space-y-5">
         {Object.keys(item.connectedGoogleTask).map((taskType) => {
+          if (taskType === 'updatedAt') return null;
           return (
             <TaskTypeSwitch
               key={taskType}
@@ -97,6 +112,40 @@ const ConnectedGoogleTask = ({ item }: Props) => {
           );
         })}
       </div>
+
+      <button
+        type="button"
+        onClick={() => {
+          syncTask.mutate({
+            integrationId: item.id,
+          });
+        }}
+        disabled={syncTask.isLoading}
+        tw="font-medium border text-mauve12 hover:bg-mauve2 text-sm px-4 py-1 rounded-sm mt-2 h-[30px]"
+        css={{
+          '&:disabled': tw`bg-mauve2`,
+        }}
+      >
+        {syncTask.isLoading ? <FiLoader tw="animate-spin w-[29px]" /> : 'Sync'}
+      </button>
+      <p tw="text-xs text-mauve9 pt-2">
+        Last Updated:{' '}
+        {formatDistanceToNow(parseISO(item.connectedGoogleTask.updatedAt as unknown as string), {
+          addSuffix: true,
+        })}
+      </p>
+      {/* 
+      <button
+        type="button"
+        onClick={() => {
+          syncTask.mutate({
+            integrationId: item.id,
+          });
+        }}
+        tw="font-medium border text-mauve12 hover:bg-mauve2 text-sm px-4 py-1 rounded-sm mt-2 h-[30px]"
+      >
+        <FiLoader tw="animate-spin w-[30px] " />
+      </button> */}
     </div>
   );
 };

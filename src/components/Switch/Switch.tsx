@@ -1,6 +1,5 @@
 import { styled } from '@stitches/react';
 import * as SwitchPrimitive from '@radix-ui/react-switch';
-import { useId } from '@radix-ui/react-id';
 import tw from 'twin.macro';
 
 const StyledSwitch = styled(SwitchPrimitive.Root, {
