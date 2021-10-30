@@ -20,15 +20,16 @@ module.exports = {
         grayDark: {
           ...darkGray,
         },
+
+        gray: colors.trueGray,
       },
       boxShadow: {},
       maxWidth: {
         popper: '265px',
       },
     },
-    colors: {
-      gray: colors.trueGray,
-    },
+    // colors: {
+    // },
   },
   variants: {
     extend: {},
