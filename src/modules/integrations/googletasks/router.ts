@@ -3,13 +3,8 @@ import { createRouter } from '@/server/createRouter';
 import { updateTasklist } from './updateTasklist';
 import { getNewPlannerItems } from '../utils/getNewPlannerItems';
 import { filterPlannerItems } from '../utils/filterPlannerItems';
-import { CredentialWithConnectedGoogleTask, CredentialWithoutConnectedGoogleTask } from '../types';
+import { isCredentialWithConnectedGoogleTask } from '../utils/isConnectedGoogleTask';
 
-const isCredentialWithConnectedGoogleTask = (
-  credential: CredentialWithConnectedGoogleTask | CredentialWithoutConnectedGoogleTask
-): credential is CredentialWithConnectedGoogleTask => {
-  return !!credential.connectedGoogleTask;
-};
 export const googletasksRouter = createRouter()
   .mutation('sync', {
     input: z.object({

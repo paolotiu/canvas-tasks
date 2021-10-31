@@ -34,7 +34,7 @@ const TaskTypeSwitch = ({
   integrationId: string;
   taskType: TaskTypes;
 } & React.ComponentProps<typeof Switch>) => {
-  const mutation = trpc.useMutation('updateTaskConfig');
+  const mutation = trpc.useMutation('googletasks.updateConfig');
   return (
     <div tw="flex items-center space-x-4  w-full">
       <Switch
@@ -134,18 +134,6 @@ const ConnectedGoogleTask = ({ item }: Props) => {
           addSuffix: true,
         })}
       </p>
-      {/* 
-      <button
-        type="button"
-        onClick={() => {
-          syncTask.mutate({
-            integrationId: item.id,
-          });
-        }}
-        tw="font-medium border text-mauve12 hover:bg-mauve2 text-sm px-4 py-1 rounded-sm mt-2 h-[30px]"
-      >
-        <FiLoader tw="animate-spin w-[30px] " />
-      </button> */}
     </div>
   );
 };

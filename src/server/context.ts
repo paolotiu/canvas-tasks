@@ -57,7 +57,6 @@ export const createContext = async ({ req, res }: trpcNext.CreateNextContextOpti
 
   if (session?.user?.canvasToken) {
     gqlClient.setHeader('Authorization', `Bearer ${session?.user?.canvasToken}`);
-
     canvasAxios.defaults.headers.common.Authorization = `Bearer ${session.user.canvasToken}`;
   }
   return {
