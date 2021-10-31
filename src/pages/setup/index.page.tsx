@@ -52,7 +52,7 @@ const Setup = () => {
     const subscription = setupService.subscribe((state) => {
       if (state.matches('finished')) {
         setTimeout(() => {
-          router.push('/courses');
+          router.push('/integrations');
         }, 2000);
       }
     });

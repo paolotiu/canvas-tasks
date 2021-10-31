@@ -34,7 +34,11 @@ export const setupRouter = createRouter()
     }),
     resolve: async ({ ctx: { prisma }, input: { token, userId } }) => {
       try {
-        await canvasAxios.get<RESTSelf>('/users/self');
+        await canvasAxios.get<RESTSelf>('/users/self', {
+          headers: {
+            authorization: `Bearer ${token}`,
+          },
+        });
 
         const user = await prisma.user.update({
           where: {

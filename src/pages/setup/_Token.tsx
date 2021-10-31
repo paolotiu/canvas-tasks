@@ -21,9 +21,10 @@ const HowToGetToken = () => {
           tw="bg-white p-4 shadow-xl rounded-sm max-w-popper text-xs text-slate12"
           side="bottom"
         >
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla eos aliquam vel voluptas
+          Go to Settings &gt; New Access Token &gt; Generate Token
+          {/* Lorem ipsum dolor sit amet consectetur adipisicing elit. Nulla eos aliquam vel voluptas
           modi. Autem non consequuntur exercitationem quas aliquam quisquam quos aut? Ipsam optio
-          cum tenetur pariatur ducimus. Blanditiis?
+          cum tenetur pariatur ducimus. Blanditiis? */}
           <Popper.Arrow tw="text-white fill-current" />
         </Popper.Content>
       </Popper.Root>
