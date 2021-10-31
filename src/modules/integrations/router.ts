@@ -73,30 +73,4 @@ export const integrationsRouter = createRouter()
       };
     },
   })
-  .mutation('updateTaskConfig', {
-    input: z.object({
-      includeAssignments: z.boolean().optional(),
-      includeDiscussionTopics: z.boolean().optional(),
-      includeQuizzes: z.boolean().optional(),
-      integrationId: z.string(),
-    }),
-    resolve: async ({ ctx: { session, prisma }, input }) => {
-      const { integrationId, ...fields } = input;
-      await prisma.connectedGoogleTask.update({
-        where: {
-          userId_integrationId: {
-            integrationId: input.integrationId,
-            userId: session?.user?.id || '',
-          },
-        },
-        data: {
-          ...fields,
-        },
-      });
-
-      return {
-        message: 'Updated successfully!',
-      };
-    },
-  })
   .merge('googletasks.', googletasksRouter);
