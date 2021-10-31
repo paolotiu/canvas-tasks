@@ -65,43 +65,29 @@ export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskLis
           title: item.plannable.title,
           due: item.plannable.due_at?.toString(),
           notes: `${item.context_name}
-		  
-https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynamic later
+
+  https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynamic later
         },
       });
     })
   );
 
-  // Upsert planner items table
+  const plannerItemIds = plannerItems.map((item) => ({ id: String(item.plannable_id) }));
+
   await prisma.$transaction([
-    ...plannerItems.map((item) =>
-      prisma.plannerItem.upsert({
-        where: {
-          id: String(item.plannable_id),
-        },
-        create: {
-          id: String(item.plannable_id),
-          connectedGoogleTasks: {
-            connect: {
-              id: connectedGoogleTask?.id,
-            },
-          },
-        },
-        update: {
-          connectedGoogleTasks: {
-            connect: {
-              id: connectedGoogleTask?.id,
-            },
-          },
-        },
-      })
-    ),
+    prisma.plannerItem.createMany({
+      data: plannerItemIds,
+      skipDuplicates: true,
+    }),
 
     prisma.connectedGoogleTask.update({
       where: {
         id: connectedGoogleTask.id,
       },
       data: {
+        plannerItems: {
+          connect: plannerItemIds,
+        },
         updatedAt: new Date(),
       },
     }),
