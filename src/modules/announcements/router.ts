@@ -26,12 +26,12 @@ export const announcementsRouter = createRouter()
       // Cache for 5 mins
       res.setHeader('cache-control', 'private, max-age=300');
 
-      const sorted = announcements.flat().sort((a, b) => {
-        const dateA = new Date(a.posted_at).getTime();
-        const dateB = new Date(b.posted_at).getTime();
-        return dateA < dateB ? 1 : -1; // ? -1 : 1 for ascending/increasing order
-      });
+      //   const sorted = announcements.flat().sort((a, b) => {
+      //     const dateA = new Date(a.posted_at).getTime();
+      //     const dateB = new Date(b.posted_at).getTime();
+      //     return dateA < dateB ? 1 : -1; // ? -1 : 1 for ascending/increasing order
+      //   });
 
-      return sorted;
+      return announcements;
     },
   });

@@ -9,7 +9,7 @@ import { PrismaClient } from '@prisma/client';
 export const prisma =
   ((global as any).prisma as PrismaClient) ||
   new PrismaClient({
-    log: ['query'],
+    // log: ['query', 'error'],
   });
 
 if (process.env.NODE_ENV !== 'production') (global as any).prisma = prisma;

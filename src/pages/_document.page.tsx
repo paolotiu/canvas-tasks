@@ -12,6 +12,7 @@ export default class Document extends NextDocument {
           <>
             {initialProps.styles}
             {/* Stitches CSS for SSR */}
+            {/* eslint-disable-next-line react/no-danger */}
             <style id="stitches" dangerouslySetInnerHTML={{ __html: getCssText() }} />
           </>
         ),
