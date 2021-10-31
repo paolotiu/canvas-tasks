@@ -1,27 +1,32 @@
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+
 }
 
 model Account {
   id                 String  @id @default(cuid())
   userId             String
-  type               String
-  provider           String
-  providerAccountId  String
-  refresh_token      String?
-  access_token       String?
+  type               String  @db.VarChar(256)
+  provider           String  @db.VarChar(256)
+  providerAccountId  String  @db.VarChar(256)
+  refresh_token      String? @db.VarChar(256)
+  access_token       String? @db.VarChar(256)
   expires_at         Int?
-  token_type         String?
-  scope              String?
-  id_token           String?
-  session_state      String?
-  oauth_token_secret String?
-  oauth_token        String?
+  token_type         String? @db.VarChar(256)
+  scope              String? @db.VarChar(256)
+  id_token           String? @db.Text
+  session_state      String? @db.VarChar(256)
+  oauth_token_secret String? @db.VarChar(256)
+  oauth_token        String? @db.VarChar(256)
 
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
@@ -78,7 +83,6 @@ model User {
   accounts            Account[]
   sessions            Session[]
   canvasToken         String?
-  selectedCourseIds   String[]
   credentials         Credential[]
   connectedGoogleTask ConnectedGoogleTask[]
 }
