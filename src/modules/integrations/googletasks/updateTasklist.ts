@@ -6,7 +6,7 @@ import { CredentialWithConnectedGoogleTask } from '../types';
 
 interface UpdateTaskListParams {
   credential: CredentialWithConnectedGoogleTask;
-  plannerItems: RESTPlannerItem[];
+  plannerItems: Array<RESTPlannerItem & { connectedTaskId?: string }>;
 }
 
 export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskListParams) => {
@@ -57,26 +57,55 @@ export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskLis
     }
   }
 
-  await Promise.all(
-    plannerItems.map(async (item) => {
-      await tasksService.tasks.insert({
-        tasklist: tasklistId,
-        requestBody: {
-          title: item.plannable.title,
-          due: item.plannable.due_at?.toString(),
-          notes: `${item.context_name}
+  const connectedTaskIds = (
+    await Promise.allSettled(
+      plannerItems.map(async (item) => {
+        if (!item.connectedTaskId) {
+          const {
+            data: { id },
+          } = await tasksService.tasks.insert({
+            tasklist: tasklistId,
+            requestBody: {
+              title: item.plannable.title,
+              due: item.plannable.due_at?.toString(),
+              notes: `${item.context_name}
 
   https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynamic later
-        },
-      });
-    })
-  );
+            },
+          });
 
-  const plannerItemIds = plannerItems.map((item) => ({ id: String(item.plannable_id) }));
+          return id;
+        }
+
+        await tasksService.tasks.update({
+          tasklist: tasklistId,
+          requestBody: {
+            title: item.plannable.title,
+            due: item.plannable.due_at?.toString(),
+            notes: `${item.context_name}
+
+  https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynamic later
+          },
+        });
+
+        return item.connectedTaskId;
+      })
+    )
+  ).map((res) => {
+    if (res.status === 'fulfilled') {
+      return res.value;
+    }
+    return '';
+  });
+
+  const updatedPlannerItems = plannerItems.map((item) => ({
+    id: String(item.plannable_id),
+    updatedAt: new Date(item.plannable.updated_at),
+  }));
 
   await prisma.$transaction([
     prisma.plannerItem.createMany({
-      data: plannerItemIds,
+      data: updatedPlannerItems,
       skipDuplicates: true,
     }),
 
@@ -85,11 +114,17 @@ export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskLis
         id: connectedGoogleTask.id,
       },
       data: {
-        plannerItems: {
-          connect: plannerItemIds,
-        },
         updatedAt: new Date(),
       },
+    }),
+
+    prisma.plannerItemOnConnGoogleTask.createMany({
+      data: updatedPlannerItems.map((item, i) => ({
+        connectedGoogleTaskId: connectedGoogleTask.id,
+        plannerItemId: item.id,
+        googleTaskId: connectedTaskIds[i] || '',
+      })),
+      skipDuplicates: true,
     }),
   ]);
 };

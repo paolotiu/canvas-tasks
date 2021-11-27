@@ -1,9 +1,8 @@
 import { createRouter } from 'src/server/createRouter';
 import { ClientError } from 'graphql-request';
-import { GQLRequestError } from '@/modules/common/types';
 
 export const coursesRouter = createRouter().query('courses', {
-  resolve: async ({ ctx: { gqlSdk, session } }) => {
+  resolve: async ({ ctx: { gqlSdk } }) => {
     try {
       const { status, data } = await gqlSdk.AllCourses();
 

@@ -1,10 +1,8 @@
-import { getSession } from 'next-auth/react';
 import { createRouter } from 'src/server/createRouter';
-import { tasks } from '@/lib/tasks';
 import { listPlannerItems } from './queries/listPlannerItems';
 
 export const tasksRouter = createRouter().query('planner', {
-  resolve: async ({ ctx: { req } }) => {
+  resolve: async () => {
     // const session = await getSession({ req });
 
     const { data } = await listPlannerItems({
