@@ -1,4 +1,4 @@
-import { signIn } from 'next-auth/react';
+import { signIn, signOut } from 'next-auth/react';
 import Image from 'next/image';
 
 const Login = () => {
@@ -13,9 +13,12 @@ const Login = () => {
           <button
             type="button"
             tw="border px-6 py-3 rounded-sm hover:bg-mauve2 flex items-center justify-center space-x-3 mt-8 w-full"
-            onClick={() =>
-              signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_APP_URL + '/setup' })
-            }
+            onClick={async () => {
+              await signOut({
+                redirect: false,
+              });
+              await signIn('google', { callbackUrl: process.env.NEXT_PUBLIC_APP_URL + '/setup' });
+            }}
           >
             <Image src="/logos/google.svg" width={15} height={15} alt="ICantvas Logo" />
             <span>Sign in with Google</span>
