@@ -22,7 +22,7 @@ const getUserFromSession = async ({
 
   const user = await prisma.user.findUnique({
     where: {
-      id: session.user.id,
+      id: session.user.id || '',
     },
     select: {
       id: true,
@@ -53,6 +53,7 @@ export const createContext = async ({ req, res }: trpcNext.CreateNextContextOpti
   // for API-response caching see https://trpc.io/docs/caching
 
   const session = await getSession({ req });
+
   const user = await getUserFromSession({ session, req });
 
   if (session?.user?.canvasToken) {

@@ -1,6 +1,8 @@
 import React from 'react';
 import Image from 'next/image';
 import { useMutation } from 'react-query';
+import { GetServerSideProps } from 'next';
+import { getSession } from 'next-auth/react';
 import MainLayout from '@/components/Layouts/MainLayout';
 import { trpc } from '@/lib/utils/trpc';
 import ConnectedGoogleTask from './ConnectedGoogleTask';
@@ -53,6 +55,30 @@ const Integrations = () => {
       </div>
     </MainLayout>
   );
+};
+
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/signin',
+      },
+    };
+  }
+
+  if (!session.user?.canvasToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/setup',
+      },
+    };
+  }
+  return {
+    props: {},
+  };
 };
 
 export default Integrations;

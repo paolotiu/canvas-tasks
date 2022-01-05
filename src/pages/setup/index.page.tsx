@@ -59,6 +59,7 @@ const Setup = () => {
 
     return subscription.unsubscribe;
   }, [router, setupService]);
+
   return (
     <MachineContext.Provider value={{ setupService }}>
       <main tw="grid min-h-screen bg-slate2 place-items-center">

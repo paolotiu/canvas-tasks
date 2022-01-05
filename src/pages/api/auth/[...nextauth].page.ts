@@ -1,7 +1,7 @@
 import NextAuth from 'next-auth';
 import { PrismaAdapter } from '@next-auth/prisma-adapter';
 import GoogleProvider from 'next-auth/providers/google';
-import { prisma } from 'src/server/prisma';
+import { prisma } from '@/server/prisma';
 
 export default NextAuth({
   adapter: PrismaAdapter(prisma),
@@ -23,6 +23,6 @@ export default NextAuth({
       return session;
     },
   },
+
   secret: process.env.JWT_SECRET,
-  jwt: {},
 });
