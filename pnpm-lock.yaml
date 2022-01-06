@@ -55,7 +55,7 @@ specifiers:
   just-random: ^2.1.1
   lodash-es: ^4.17.21
   next: 12.0.1
-  next-auth: 4.0.0-beta.6
+  next-auth: 4.0.0-beta.7
   postcss: ^8.3.5
   prettier: ^2.3.1
   prisma: ^3.5.0
@@ -72,7 +72,7 @@ specifiers:
   zod: ^3.10.3
 
 dependencies:
-  '@next-auth/prisma-adapter': 0.5.2-next.19_78a630c687f1ef2eb53f9936d35d2598
+  '@next-auth/prisma-adapter': 0.5.2-next.19_5f2188c15616c466d0ed074105e0682c
   '@prisma/client': 3.5.0_prisma@3.5.0
   '@radix-ui/colors': 0.1.7
   '@radix-ui/react-accordion': 0.1.1_react@17.0.2
@@ -103,7 +103,7 @@ dependencies:
   just-random: 2.1.1
   lodash-es: 4.17.21
   next: 12.0.1_react-dom@17.0.2+react@17.0.2
-  next-auth: 4.0.0-beta.6_react-dom@17.0.2+react@17.0.2
+  next-auth: 4.0.0-beta.7_react-dom@17.0.2+react@17.0.2
   postcss: 8.3.9
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
@@ -1318,6 +1318,12 @@ packages:
     dependencies:
       regenerator-runtime: 0.13.9
 
+  /@babel/runtime/7.16.3:
+    resolution: {integrity: sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==}
+    engines: {node: '>=6.9.0'}
+    dependencies:
+      regenerator-runtime: 0.13.9
+
   /@babel/template/7.15.4:
     resolution: {integrity: sha512-UgBAfEa1oGuYgDIPM2G+aHa4Nlo9Lh6mGD2bDBGMTbYnc38vulXPuC1MGjYILIEmlwl6Rd+BPR9ee3gm20CBtg==}
     engines: {node: '>=6.9.0'}
@@ -2078,14 +2084,14 @@ packages:
   /@napi-rs/triples/1.0.3:
     resolution: {integrity: sha512-jDJTpta+P4p1NZTFVLHJ/TLFVYVcOqv6l8xwOeBKNPMgY/zDYH/YH7SJbvrr/h1RcS9GzbPcLKGzpuK9cV56UA==}
 
-  /@next-auth/prisma-adapter/0.5.2-next.19_78a630c687f1ef2eb53f9936d35d2598:
+  /@next-auth/prisma-adapter/0.5.2-next.19_5f2188c15616c466d0ed074105e0682c:
     resolution: {integrity: sha512-146DWE4PEbgVKF6W0CjJSxeP2rrw2T2s8zX1GQzbQsMK8trRSzheURJRphCn6ZGhVSpHJhU4NZe7F0kwRL5lwQ==}
     peerDependencies:
       '@prisma/client': '>=2.26.0'
       next-auth: '>4 || 4.0.0-beta.1 - 4.0.0-beta.x'
     dependencies:
       '@prisma/client': 3.5.0_prisma@3.5.0
-      next-auth: 4.0.0-beta.6_react-dom@17.0.2+react@17.0.2
+      next-auth: 4.0.0-beta.7_react-dom@17.0.2+react@17.0.2
     dev: false
 
   /@next/env/12.0.1:
@@ -3593,7 +3599,7 @@ packages:
   /babel-plugin-macros/2.8.0:
     resolution: {integrity: sha512-SEP5kJpfGYqYKpBrj5XU3ahw5p5GOHJ0U5ssOSQ/WBVdwkD2Dzlce95exQTs3jOVWPPKLBN2rlEWkCK7dSmLvg==}
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
       cosmiconfig: 6.0.0
       resolve: 1.20.0
     dev: false
@@ -4261,6 +4267,11 @@ packages:
     resolution: {integrity: sha512-4FJkXzKXEDB1snCFZlLP4gpC3JILicCpGbzG9f9G7tGqGCzETQ2hWPrcinA9oU4wtf2biUaEH5065UnMeR33oA==}
     dependencies:
       safe-buffer: 5.1.2
+
+  /cookie/0.4.1:
+    resolution: {integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==}
+    engines: {node: '>= 0.6'}
+    dev: false
 
   /core-js-compat/3.18.3:
     resolution: {integrity: sha512-4zP6/y0a2RTHN5bRGT7PTq9lVt3WzvffTNjqnTKsXhkAYNDTkdCLOIfAdOLcQ/7TDdyRj3c+NeHe1NmF1eDScw==}
@@ -6384,7 +6395,7 @@ packages:
       jest-runtime: 27.2.5
       jest-snapshot: 27.2.5
       jest-util: 27.2.5
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
       slash: 3.0.0
       stack-utils: 2.0.5
       throat: 6.0.1
@@ -6451,7 +6462,7 @@ packages:
       jest-util: 27.2.5
       jest-validate: 27.2.5
       micromatch: 4.0.4
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
     transitivePeerDependencies:
       - bufferutil
       - canvas
@@ -6484,7 +6495,7 @@ packages:
       chalk: 4.1.2
       jest-get-type: 27.0.6
       jest-util: 27.2.5
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
     dev: true
 
   /jest-environment-jsdom/27.2.5:
@@ -6562,7 +6573,7 @@ packages:
       jest-runtime: 27.2.5
       jest-snapshot: 27.2.5
       jest-util: 27.2.5
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
       throat: 6.0.1
     transitivePeerDependencies:
       - supports-color
@@ -6573,7 +6584,7 @@ packages:
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       jest-get-type: 27.0.6
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
     dev: true
 
   /jest-matcher-utils/27.2.5:
@@ -6583,7 +6594,7 @@ packages:
       chalk: 4.1.2
       jest-diff: 27.2.5
       jest-get-type: 27.0.6
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
     dev: true
 
   /jest-message-util/27.2.5:
@@ -6596,7 +6607,7 @@ packages:
       chalk: 4.1.2
       graceful-fs: 4.2.8
       micromatch: 4.0.4
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
       slash: 3.0.0
       stack-utils: 2.0.5
     dev: true
@@ -6755,7 +6766,7 @@ packages:
       jest-resolve: 27.2.5
       jest-util: 27.2.5
       natural-compare: 1.4.0
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
       semver: 7.3.5
     transitivePeerDependencies:
       - supports-color
@@ -6782,7 +6793,7 @@ packages:
       chalk: 4.1.2
       jest-get-type: 27.0.6
       leven: 3.1.0
-      pretty-format: 27.2.5
+      pretty-format: 27.3.1
     dev: true
 
   /jest-watcher/27.2.5:
@@ -6837,8 +6848,8 @@ packages:
       - utf-8-validate
     dev: true
 
-  /jose/4.1.2:
-    resolution: {integrity: sha512-1X2Lfm7myqavybkbgUyao/ocdCA9LPq0J60Miguasy7szHjViMkGadJ6Kx9WyWClgyTYQ7JPBGQ/fXuzqeZyTQ==}
+  /jose/4.3.7:
+    resolution: {integrity: sha512-S7Xfsy8nN9Iw/AZxk+ZxEbd5ImIwJPM0TfAo8zI8FF+3lidQ2yiK4dqzsaPKSbZD0woNVSY0KCql6rlKc5V7ug==}
     dev: false
 
   /js-sha3/0.8.0:
@@ -7478,8 +7489,8 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: false
 
-  /next-auth/4.0.0-beta.6_react-dom@17.0.2+react@17.0.2:
-    resolution: {integrity: sha512-g2X0c2RGPt9xjEiGqR5g0Csth37F9+cVmoNWa0ek6j1OYP2M4P3ZQmJqCQBq+9486pMmMn/awQYr5bhcVOIMgg==}
+  /next-auth/4.0.0-beta.7_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-bPoLak4MfmgrcLLaf26tEQttKJPBcP3KAtSXSo2xMhoG+PLnP9gwFmqLwFUX+FvVRf/iwuAUZjPRAqRQ9g3GOw==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
     peerDependencies:
       nodemailer: ^6.6.5
@@ -7489,13 +7500,14 @@ packages:
       nodemailer:
         optional: true
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
       '@panva/hkdf': 1.0.1
-      jose: 4.1.2
+      cookie: 0.4.1
+      jose: 4.3.7
       oauth: 0.9.15
       openid-client: 5.0.2
-      preact: 10.5.15
-      preact-render-to-string: 5.1.19_preact@10.5.15
+      preact: 10.6.1
+      preact-render-to-string: 5.1.19_preact@10.6.1
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
       uuid: 8.3.2
@@ -7791,7 +7803,7 @@ packages:
     resolution: {integrity: sha512-Z3fuzy5S/ohIBonXdTFYAKIjMAf0ycRMW0Rs1cXSH1UBJDB2CJTcVR5u7MPlPui5lA1f+mQ9DktPNEwrYVoY+A==}
     engines: {node: ^12.19.0 || ^14.15.0 || ^16.13.0}
     dependencies:
-      jose: 4.1.2
+      jose: 4.3.7
       lru-cache: 6.0.0
       object-hash: 2.2.0
       oidc-token-hash: 5.0.1
@@ -8107,17 +8119,17 @@ packages:
       source-map-js: 0.6.2
     dev: false
 
-  /preact-render-to-string/5.1.19_preact@10.5.15:
+  /preact-render-to-string/5.1.19_preact@10.6.1:
     resolution: {integrity: sha512-bj8sn/oytIKO6RtOGSS/1+5CrQyRSC99eLUnEVbqUa6MzJX5dYh7wu9bmT0d6lm/Vea21k9KhCQwvr2sYN3rrQ==}
     peerDependencies:
       preact: '>=10'
     dependencies:
-      preact: 10.5.15
+      preact: 10.6.1
       pretty-format: 3.8.0
     dev: false
 
-  /preact/10.5.15:
-    resolution: {integrity: sha512-5chK29n6QcJc3m1lVrKQSQ+V7K1Gb8HeQY6FViQ5AxCAEGu3DaHffWNDkC9+miZgsLvbvU9rxbV1qinGHMHzqA==}
+  /preact/10.6.1:
+    resolution: {integrity: sha512-ydCg+ISIq70vqiThvNWStZWLRjR9U2awP/JAmGdWUKm9+Tyuy+MqVdAIyEByeIspAVtD4GWC/SJtxO8XD4knVA==}
     dev: false
 
   /prelude-ls/1.1.2:
@@ -8150,6 +8162,16 @@ packages:
 
   /pretty-format/27.2.5:
     resolution: {integrity: sha512-+nYn2z9GgicO9JiqmY25Xtq8SYfZ/5VCpEU3pppHHNAhd1y+ZXxmNPd1evmNcAd6Hz4iBV2kf0UpGth5A/VJ7g==}
+    engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
+    dependencies:
+      '@jest/types': 27.2.5
+      ansi-regex: 5.0.1
+      ansi-styles: 5.2.0
+      react-is: 17.0.2
+    dev: true
+
+  /pretty-format/27.3.1:
+    resolution: {integrity: sha512-DR/c+pvFc52nLimLROYjnXPtolawm+uWDxr4FjuLDLUn+ktWnSN851KoHwHzzqq6rfCOjkzN8FLgDrSub6UDuA==}
     engines: {node: ^10.13.0 || ^12.13.0 || ^14.15.0 || >=15.0.0}
     dependencies:
       '@jest/types': 27.2.5
@@ -8492,7 +8514,7 @@ packages:
   /regenerator-transform/0.14.5:
     resolution: {integrity: sha512-eOf6vka5IO151Jfsw2NO9WpGX58W6wWmefK3I1zEGr0lOD0u8rwPaNqQL1aRxUaxLeKO3ArNh3VYg1KbaD+FFw==}
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
     dev: false
 
   /regexp.prototype.flags/1.3.1:
@@ -8554,7 +8576,7 @@ packages:
       '@babel/core': 7.15.8
       '@babel/generator': 7.15.8
       '@babel/parser': 7.15.8
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
       '@babel/traverse': 7.15.4
       '@babel/types': 7.15.6
       babel-preset-fbjs: 3.4.0_@babel+core@7.15.8
@@ -8576,7 +8598,7 @@ packages:
   /relay-runtime/11.0.2:
     resolution: {integrity: sha512-xxZkIRnL8kNE1cxmwDXX8P+wSeWLR+0ACFyAiAhvfWWAyjXb+bhjJ2FSsRGlNYfkqaTNEuDqpnodQV1/fF7Idw==}
     dependencies:
-      '@babel/runtime': 7.15.4
+      '@babel/runtime': 7.16.3
       fbjs: 3.0.0
       invariant: 2.2.4
     dev: true
