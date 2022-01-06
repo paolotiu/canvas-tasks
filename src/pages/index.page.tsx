@@ -16,11 +16,19 @@ const FeatureTitle = styled('h4', {
   },
 });
 
+const Sect: React.FC<{ className?: string }> = ({ className, children }) => {
+  return (
+    <section tw="flex justify-center" className={className}>
+      <div tw="max-w-[1300px] flex-1">{children}</div>
+    </section>
+  );
+};
+
 export default function Home() {
   return (
     // TODO: Remove full page hack once more stuff can be added to the home page
-    <main tw="bg-mauve2 min-h-screen max-h-screen flex justify-center overflow-hidden">
-      <div tw="flex-1 max-w-[1300px]">
+    <main tw="bg-mauve2 min-h-screen max-h-screen overflow-hidden">
+      <Sect>
         <GuideLines>
           <header tw="px-6 md:px-14 py-6 flex justify-between">
             <div tw="flex items-center gap-2">
@@ -32,8 +40,11 @@ export default function Home() {
             </nav>
           </header>
         </GuideLines>
+      </Sect>
+
+      <Sect>
         <GuideLines>
-          <div tw="px-6 md:px-14 pt-32 grid gap-8">
+          <div tw="px-6 md:px-14 pt-32 pb-12 grid gap-8">
             <h1 tw="text-5xl  md:text-6xl max-w-xl font-bold text-mauve12">
               Because we know you really cant
             </h1>
@@ -51,8 +62,10 @@ export default function Home() {
             </div>
           </div>
         </GuideLines>
+      </Sect>
+      <Sect tw="bg-mauve1">
         <GuideLines>
-          <section tw="grid pt-28 pb-80">
+          <section tw="grid pt-12 pb-80">
             <div>
               <CopyTitle>Features</CopyTitle>
               <p tw="px-6 md:px-14 text-sm text-mauve11 font-medium">
@@ -67,14 +80,15 @@ export default function Home() {
                   Synced Google Tasks
                 </FeatureTitle>
                 <p tw="pl-2 pr-8">
-                  Spend exactly <strong>0 seconds</strong> listing down your assingments, deadlines,
-                  and tasks.
+                  Spend exactly <strong>0 seconds*</strong> listing down your assingments,
+                  deadlines, and tasks.
                 </p>
+                <small tw="pl-2 text-xs text-mauve10">*A little bit more than 0 seconds</small>
               </div>
             </div>
           </section>
         </GuideLines>
-      </div>
+      </Sect>
     </main>
   );
 }
