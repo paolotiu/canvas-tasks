@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { useSession } from 'next-auth/react';
+import { getSession, useSession } from 'next-auth/react';
 import { useInterpret, useSelector } from '@xstate/react';
 import { FiCheck } from 'react-icons/fi';
 import { styled } from 'twin.macro';
 import { keyframes } from '@stitches/react';
 import { useRouter } from 'next/dist/client/router';
+import { GetServerSideProps } from 'next';
 import { Accordion, AccordionItem, AccordionTrigger } from '@/components/Accordion';
 import Token from './_Token';
 import { setupMachine } from '@/modules/setup/machine';
@@ -93,5 +94,28 @@ const Setup = () => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps = () => {};
+export const getServerSideProps: GetServerSideProps = async (ctx) => {
+  const session = await getSession(ctx);
+
+  if (!session) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/signin',
+      },
+    };
+  }
+  if (session?.user?.canvasToken) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: '/integrations',
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
 export default Setup;
