@@ -3,6 +3,8 @@ import { ComponentProps, styled } from '@stitches/react';
 import { IconApps } from '@tabler/icons';
 import tw from 'twin.macro';
 import { useRouter } from 'next/router';
+import { ExitIcon } from '@radix-ui/react-icons';
+import { signOut } from 'next-auth/react';
 import Link from '@/components/Link/Link';
 
 const StyledSidebarNavItem = styled(Link, {
@@ -23,13 +25,26 @@ const SidebarNavItem = (props: ComponentProps<typeof StyledSidebarNavItem>) => {
 
 const Sidebar = () => {
   return (
-    <aside tw="h-screen w-56 border-r px-2 hidden md:flex flex-col bg-white">
-      <nav tw="mt-5">
+    <aside tw="h-screen w-56 border-r px-2 hidden md:flex flex-col justify-between bg-white py-5">
+      <nav>
         <SidebarNavItem href="/integrations">
           <IconApps />
           Integrations
         </SidebarNavItem>
       </nav>
+
+      <button
+        type="button"
+        tw="flex items-center text-sm p-2 hover:bg-red4 rounded-sm"
+        onClick={() => {
+          signOut({
+            callbackUrl: process.env.NEXT_PUBLIC_APP_URL,
+          });
+        }}
+      >
+        <ExitIcon tw="mr-2" />
+        Log out
+      </button>
     </aside>
   );
 };
