@@ -1,7 +1,7 @@
 import React from 'react';
-import { ComponentProps, styled } from '@stitches/react';
+import { ComponentProps } from '@stitches/react';
 import { IconApps } from '@tabler/icons';
-import tw from 'twin.macro';
+import tw, { styled } from 'twin.macro';
 import { useRouter } from 'next/router';
 import { ExitIcon } from '@radix-ui/react-icons';
 import { signOut } from 'next-auth/react';
@@ -20,7 +20,7 @@ const StyledSidebarNavItem = styled(Link, {
 const SidebarNavItem = (props: ComponentProps<typeof StyledSidebarNavItem>) => {
   const router = useRouter();
 
-  return <StyledSidebarNavItem active={router.asPath === props.href} {...props} />;
+  return <StyledSidebarNavItem active={router.pathname === props.href} {...props} />;
 };
 
 const Sidebar = () => {
