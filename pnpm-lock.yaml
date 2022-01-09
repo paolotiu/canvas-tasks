@@ -19,6 +19,7 @@ specifiers:
   '@swc/core': ^1.2.99
   '@swc/jest': ^0.2.4
   '@tabler/icons': ^1.41.2
+  '@tailwindcss/line-clamp': ^0.3.0
   '@trpc/client': ^9.9.1
   '@trpc/next': ^9.9.1
   '@trpc/react': ^9.9.1
@@ -83,6 +84,7 @@ dependencies:
   '@stitches/react': 1.2.5_react@17.0.2
   '@svgr/webpack': 5.5.0
   '@tabler/icons': 1.41.2_react-dom@17.0.2+react@17.0.2
+  '@tailwindcss/line-clamp': 0.3.0_tailwindcss@2.2.17
   '@trpc/client': 9.9.1
   '@trpc/next': 9.9.1_2540a9947dedfe7cebab70641bc2817c
   '@trpc/react': 9.9.1_8826713288b04dfce0b9db9877395df9
@@ -2919,6 +2921,14 @@ packages:
     dependencies:
       react: 17.0.2
       react-dom: 17.0.2_react@17.0.2
+    dev: false
+
+  /@tailwindcss/line-clamp/0.3.0_tailwindcss@2.2.17:
+    resolution: {integrity: sha512-ffDDclrqr3sy8cpChCozedDUAN8enxqAiWeH8d4dGQ2hcXlxf51+7KleveFi/n/TxEuRVApoL7hICeDOdYPKpg==}
+    peerDependencies:
+      tailwindcss: '>=2.0.0 || >=3.0.0 || >=3.0.0-alpha.1'
+    dependencies:
+      tailwindcss: 2.2.17_96f83969316717847b3edf58a3f353f3
     dev: false
 
   /@tootallnate/once/1.1.2:

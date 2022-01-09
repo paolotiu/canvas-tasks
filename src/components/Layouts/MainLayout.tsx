@@ -7,7 +7,7 @@ interface Props {
 
 const MainLayout = ({ children }: Props) => {
   return (
-    <div tw="flex h-screen bg-mauve2">
+    <div tw="flex min-h-screen bg-mauve2">
       <Sidebar />
       <main tw="flex-1">
         <div tw="py-8">

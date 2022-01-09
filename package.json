@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint",
     "gen": "graphql-codegen --config codegen.yml -r dotenv/config",
+    "gen:watch": "graphql-codegen --config codegen.yml -r dotenv/config --watch",
     "test": "jest"
   },
   "dependencies": {
@@ -22,6 +23,7 @@
     "@stitches/react": "^1.2.5",
     "@svgr/webpack": "^5.5.0",
     "@tabler/icons": "^1.41.2",
+    "@tailwindcss/line-clamp": "^0.3.0",
     "@trpc/client": "^9.9.1",
     "@trpc/next": "^9.9.1",
     "@trpc/react": "^9.9.1",

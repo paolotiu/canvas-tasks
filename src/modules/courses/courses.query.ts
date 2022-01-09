@@ -7,6 +7,10 @@ export const ALL_COURSES_QUERY = gql`
       courseCode
       name
       id
+      imageUrl
+      term {
+        name
+      }
     }
   }
 `;

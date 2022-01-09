@@ -3,18 +3,18 @@ import { ComponentProps } from '@stitches/react';
 import { IconApps } from '@tabler/icons';
 import tw, { styled } from 'twin.macro';
 import { useRouter } from 'next/router';
-import { ExitIcon } from '@radix-ui/react-icons';
+import { ExitIcon, ReaderIcon } from '@radix-ui/react-icons';
 import { signOut } from 'next-auth/react';
 import Link from '@/components/Link/Link';
 
 const StyledSidebarNavItem = styled(Link, {
   variants: {
     active: {
-      true: tw`bg-mauve3`,
+      true: tw`bg-mauve3 hover:bg-mauve3`,
     },
   },
-  ...tw`flex items-center p-2 text-sm rounded-sm hover:bg-mauve3`,
-  '& svg': tw`w-5 h-5 mr-3 stroke-1`,
+  ...tw`flex items-center p-2 text-sm transition-colors rounded-sm hover:bg-mauve2`,
+  '& svg': tw`mr-3 stroke-1 `,
 });
 
 const SidebarNavItem = (props: ComponentProps<typeof StyledSidebarNavItem>) => {
@@ -25,11 +25,16 @@ const SidebarNavItem = (props: ComponentProps<typeof StyledSidebarNavItem>) => {
 
 const Sidebar = () => {
   return (
-    <aside tw="h-screen w-56 border-r px-2 hidden md:flex flex-col justify-between bg-white py-5">
-      <nav>
+    <aside tw="h-screen sticky top-0 w-56 border-r px-2 hidden md:flex flex-col justify-between bg-white py-5">
+      <nav tw="grid gap-2">
         <SidebarNavItem href="/integrations">
-          <IconApps />
+          <IconApps width={15} height={15} />
           Integrations
+        </SidebarNavItem>
+
+        <SidebarNavItem href="/courses">
+          <ReaderIcon />
+          Courses
         </SidebarNavItem>
       </nav>
 

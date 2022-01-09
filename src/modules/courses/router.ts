@@ -7,13 +7,11 @@ export const coursesRouter = createRouter().query('courses', {
       const { status, data } = await gqlSdk.AllCourses();
 
       if (status === 401 || !data) {
-        return 'asdksald';
+        return {};
       }
       return data;
     } catch (error) {
-      if (error instanceof ClientError) {
-        return error.response.status;
-      }
+      return {};
     }
   },
 });
