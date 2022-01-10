@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/ban-types
 interface RESTPlannerItemBase<PlannableType extends string, Plannable extends {}> {
   context_type: string;
   course_id: number;
@@ -5,7 +6,7 @@ interface RESTPlannerItemBase<PlannableType extends string, Plannable extends {}
   submissions: boolean; //
   /** In the form of `123` */
   plannable_id: number;
-  /** In the form of `/courses/1/discussion_topics/8`*/
+  /** In the form of `/courses/1/discussion_topics/8` */
   html_url: string;
   //   plannable_type: 'discussion_topic' | 'assignment' | 'quiz' | 'wiki_page' | 'planner_note';
   plannable_type: PlannableType;
@@ -70,29 +71,4 @@ export interface RESTPlannerOverride {
   updated_at: Date | null;
 }
 
-export interface RESTSelf {
-  id: number;
-  name: string;
-  created_at: Date;
-  sortable_name: string;
-  short_name: string;
-  avatar_url: string;
-  locale?: any;
-  effective_locale: string;
-  permissions: {
-    can_update_name: boolean;
-    can_update_avatar: boolean;
-    limit_parent_app_web_access: boolean;
-  };
-}
-
 export type PlannerItemList = Array<RESTPlannerItem>;
-
-export interface GQLRequestError {
-  response: {
-    status: number;
-    error: Array<{
-      message: string;
-    }>;
-  };
-}
