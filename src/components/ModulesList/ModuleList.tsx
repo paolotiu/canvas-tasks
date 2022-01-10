@@ -1,21 +1,32 @@
 import React from 'react';
 import {
+  IconFileText,
+  IconMessages,
+  IconPaperclip,
+  IconPencil,
+  IconRocket,
+  TablerIcon,
+} from '@tabler/icons';
+import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
 } from '@/components/Accordion/ModulesAccordion';
-import { RESTCourseModule } from '@/modules/common/types';
-
-// type MConnection = Pick<
-//   NonNullable<CourseModulesQuery['course']>,
-//   'modulesConnection'
-// >['modulesConnection'];
-// type MNode = Pick<NonNullable<MConnection>, 'nodes'>['nodes'];
+import { ModuleItemType, RESTCourseModule } from '@/modules/common/types';
 
 interface Props {
   moduleNode: RESTCourseModule;
 }
+
+const ModuleItemIcons: Record<ModuleItemType, TablerIcon | null> = {
+  Assignment: IconPencil,
+  File: IconPaperclip,
+  Discussion: IconMessages,
+  Page: IconFileText,
+  Quiz: IconRocket,
+  ExternalTool: null,
+};
 
 const ModulesList = ({ moduleNode }: Props) => {
   const name = moduleNode.name || '';
@@ -25,6 +36,7 @@ const ModulesList = ({ moduleNode }: Props) => {
         <AccordionTrigger title={name} onOptionsClick={() => console.log('askdja')} />
         <AccordionContent>
           {moduleNode.items?.map((item) => {
+            const Icon = ModuleItemIcons[item.type];
             return (
               <div
                 //   eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
@@ -33,10 +45,12 @@ const ModulesList = ({ moduleNode }: Props) => {
                 key={item.id}
               >
                 <p
+                  tw="flex items-center gap-2"
                   style={{
-                    paddingLeft: `${item.indent * 12}px`,
+                    paddingLeft: `${item.indent * 18}px`,
                   }}
                 >
+                  {Icon ? <Icon width={18} height={18} strokeWidth={1} /> : null}
                   {item.title}
                 </p>
               </div>

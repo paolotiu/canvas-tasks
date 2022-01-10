@@ -1,3 +1,10 @@
+export type ModuleItemType =
+  | 'Page'
+  | 'Discussion'
+  | 'Assignment'
+  | 'Quiz'
+  | 'ExternalTool'
+  | 'File';
 export interface RESTLockInfo {
   lock_at: Date | string;
   can_view: boolean;
@@ -21,7 +28,7 @@ export interface RESTModuleItem {
   position: number;
   indent: number;
   quiz_lti: boolean;
-  type: string;
+  type: ModuleItemType;
   module_id: number;
   html_url: string;
   page_url: string;
