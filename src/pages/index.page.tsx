@@ -42,7 +42,7 @@ export default function Home() {
         </GuideLines>
       </Sect>
 
-      <Sect>
+      <Sect tw="border-b">
         <GuideLines>
           <div tw="px-6 md:px-14 pt-32 pb-12 grid gap-8">
             <h1 tw="text-5xl  md:text-6xl max-w-xl font-bold text-mauve12">
