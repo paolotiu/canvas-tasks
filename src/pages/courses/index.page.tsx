@@ -1,9 +1,10 @@
 import MainLayout from '@/components/Layouts/MainLayout';
+import Link from '@/components/Link/Link';
 import { trpc } from '@/lib/utils/trpc';
 
 // TODO: Determine color for each course
 const Courses = () => {
-  const { data } = trpc.useQuery(['courses']);
+  const { data } = trpc.useQuery(['courses'], { staleTime: Infinity });
 
   return (
     <MainLayout>
@@ -15,14 +16,18 @@ const Courses = () => {
       >
         {data?.allCourses?.map((course) => {
           return (
-            <div
+            <Link
+              href={`/courses/${course._id}`}
               key={course.id}
-              tw="bg-white pb-4  rounded-sm shadow-sm cursor-pointer border hover:bg-mauve1"
+              tw="bg-white pb-4 rounded-sm shadow-sm cursor-pointer border hover:bg-mauve2 transition-colors"
             >
               <div
                 tw="h-32"
                 style={{
-                  backgroundImage: `url(${course.imageUrl})`,
+                  backgroundSize: 'cover',
+                  backgroundImage: course.imageUrl ? `url(${course.imageUrl})` : '',
+                  backgroundPosition: 'center center',
+                  backgroundRepeat: 'no-repeat',
                 }}
               ></div>
               <div tw="px-4 pt-4">
@@ -30,7 +35,7 @@ const Courses = () => {
                 <h3 tw="font-medium">{course.courseCode}</h3>
                 <p tw="text-xs text-mauve11">{course.term?.name}</p>
               </div>
-            </div>
+            </Link>
           );
         })}
       </div>

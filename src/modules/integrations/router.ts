@@ -11,7 +11,7 @@ export const integrationsRouter = createRouter()
     resolve: async ({ ctx: { session, prisma, user } }) => {
       const integrations = await prisma.credential.findMany({
         where: {
-          userId: session?.user?.id,
+          userId: session?.user?.id || '',
         },
         select: {
           id: true,

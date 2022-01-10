@@ -2,8 +2,11 @@ import tw, { globalStyles } from 'twin.macro';
 import { globalCss } from '../../stitches.config';
 
 const customStyles = {
+  html: {
+    ...tw`w-full h-full`,
+  },
   body: {
-    ...tw`antialiased`,
+    ...tw`w-full h-full antialiased`,
   },
   input: tw`focus:outline-none`,
 };

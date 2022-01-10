@@ -3,7 +3,7 @@ import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
 import { useSession } from 'next-auth/react';
 import * as Popper from '@/components/PopperDialog';
-import { AccordionContent } from '@/components/Accordion';
+import { AccordionContent } from '@/components/Accordion/SetupAccordion';
 import { trpc } from '@/lib/utils/trpc';
 import { useSetupService } from './MachineContext';
 

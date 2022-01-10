@@ -4554,6 +4554,13 @@ export type AllCoursesQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AllCoursesQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', _id: string, courseCode?: string | null | undefined, name: string, id: string, imageUrl?: any | null | undefined, term?: { __typename?: 'Term', name?: string | null | undefined } | null | undefined }> | null | undefined };
 
+export type CourseModulesQueryVariables = Exact<{
+  id?: Maybe<Scalars['ID']>;
+}>;
+
+
+export type CourseModulesQuery = { __typename?: 'Query', course?: { __typename?: 'Course', id: string, _id: string, modulesConnection?: { __typename?: 'ModuleConnection', nodes?: Array<{ __typename?: 'Module', name?: string | null | undefined, moduleItems?: Array<{ __typename?: 'ModuleItem', content?: { __typename: 'Assignment', id: string, name?: string | null | undefined } | { __typename: 'Discussion', id: string, title?: string | null | undefined } | { __typename?: 'ExternalTool' } | { __typename?: 'ExternalUrl' } | { __typename?: 'File' } | { __typename?: 'ModuleExternalTool' } | { __typename: 'Page', id: string, title?: string | null | undefined } | { __typename: 'Quiz', id: string } | { __typename?: 'SubHeader' } | null | undefined }> | null | undefined } | null | undefined> | null | undefined } | null | undefined } | null | undefined };
+
 export type AllCoursesAssigmentsQueryVariables = Exact<{
   first: Scalars['Int'];
   after?: Maybe<Scalars['String']>;
@@ -4595,6 +4602,42 @@ export const AllCoursesDocument = gql`
   }
 }
     `;
+export const CourseModulesDocument = gql`
+    query courseModules($id: ID) {
+  course(id: $id) {
+    id
+    _id
+    modulesConnection {
+      nodes {
+        name
+        moduleItems {
+          content {
+            ... on Page {
+              __typename
+              id
+              title
+            }
+            ... on Discussion {
+              __typename
+              id
+              title
+            }
+            ... on Assignment {
+              __typename
+              id
+              name
+            }
+            ... on Quiz {
+              __typename
+              id
+            }
+          }
+        }
+      }
+    }
+  }
+}
+    `;
 export const AllCoursesAssigmentsDocument = gql`
     query allCoursesAssigments($first: Int!, $after: String) {
   allCourses {
@@ -4628,6 +4671,7 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 const ADocumentString = print(ADocument);
 const AllCoursesDocumentString = print(AllCoursesDocument);
+const CourseModulesDocumentString = print(CourseModulesDocument);
 const AllCoursesAssigmentsDocumentString = print(AllCoursesAssigmentsDocument);
 const AllCoursesIdDocumentString = print(AllCoursesIdDocument);
 export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = defaultWrapper) {
@@ -4637,6 +4681,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
     },
     AllCourses(variables?: AllCoursesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesQuery>(AllCoursesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllCourses');
+    },
+    courseModules(variables?: CourseModulesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: CourseModulesQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<CourseModulesQuery>(CourseModulesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'courseModules');
     },
     allCoursesAssigments(variables: AllCoursesAssigmentsQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesAssigmentsQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesAssigmentsQuery>(AllCoursesAssigmentsDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allCoursesAssigments');
