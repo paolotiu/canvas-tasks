@@ -5,14 +5,25 @@ import { AppRouter } from 'src/server';
 import { IdProvider } from '@radix-ui/react-id';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { inspect } from '@xstate/inspect';
+import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
+import { httpLink } from '@trpc/client/links/httpLink';
+import { splitLink } from '@trpc/client/links/splitLink';
 import globalStyles from '@/styles/globalStyles';
+import Protected from '@/components/Auth/Protected';
 
 function MyApp({ Component, pageProps }: AppProps) {
   globalStyles();
+
   return (
     <SessionProvider session={pageProps.session}>
       <IdProvider>
-        <Component {...pageProps} />
+        {(Component as any).auth ? (
+          <Protected>
+            <Component {...pageProps} />
+          </Protected>
+        ) : (
+          <Component {...pageProps} />
+        )}
       </IdProvider>
     </SessionProvider>
   );
@@ -43,6 +54,20 @@ export default withTRPC<AppRouter>({
       headers: {
         cookie: ctx?.req?.headers.cookie,
       },
+      links: [
+        splitLink({
+          condition(op) {
+            return op.context.skipBatch === true;
+          },
+          true: httpLink({
+            url,
+          }),
+          // when condition is false, use batching
+          false: httpBatchLink({
+            url,
+          }),
+        }),
+      ],
     };
   },
 
