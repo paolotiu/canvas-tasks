@@ -1,13 +1,13 @@
 import { google } from 'googleapis';
 import type { NextApiHandler } from 'next';
-import { getSession } from 'next-auth/react';
 import { prisma } from '@/server/prisma';
+import { auth } from '@/lib/supabase';
 
 const credentials = process.env.GOOGLE_API_CREDENTIALS;
 
 export const handler: NextApiHandler = async (req, res) => {
   const { code } = req.query;
-  const session = await getSession({ req });
+  const session = await auth.api.getUserByCookie(req);
 
   if (!session?.user?.id) {
     res.status(401).json({ message: 'You must be logged in to do this' });

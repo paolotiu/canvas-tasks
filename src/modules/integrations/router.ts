@@ -8,10 +8,10 @@ import { googletasksRouter } from './googletasks/router';
 
 export const integrationsRouter = createRouter()
   .query('integrations', {
-    resolve: async ({ ctx: { session, prisma, user } }) => {
+    resolve: async ({ ctx: { prisma, user } }) => {
       const integrations = await prisma.credential.findMany({
         where: {
-          userId: session?.user?.id || '',
+          userId: user?.id || '',
         },
         select: {
           id: true,
@@ -60,12 +60,12 @@ export const integrationsRouter = createRouter()
     input: z.object({
       integrationId: z.string(),
     }),
-    resolve: async ({ ctx: { prisma, session }, input }) => {
+    resolve: async ({ ctx: { prisma, user }, input }) => {
       await prisma.credential.delete({
         where: {
           id_userId: {
             id: input.integrationId,
-            userId: session?.user?.id || '',
+            userId: user?.id || '',
           },
         },
       });

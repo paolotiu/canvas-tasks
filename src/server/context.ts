@@ -1,34 +1,33 @@
 import * as trpcNext from '@trpc/server/adapters/next';
 import * as trpc from '@trpc/server';
-import { getSession } from 'next-auth/react';
 import { Maybe } from '@trpc/server';
-import { Session } from 'next-auth';
 import { GetServerSidePropsContext } from 'next';
+import { User } from '@supabase/supabase-js';
 import { prisma } from './prisma';
 import { gqlClient, gqlSdk } from '@/lib/gqlSdk';
 import { canvasAxios } from '@/lib/axios';
+import { auth } from '@/lib/supabase';
 
 type CreateContextOptions = trpcNext.CreateNextContextOptions | GetServerSidePropsContext;
 
-const getUserFromSession = async ({
-  session,
+const getUserDetails = async ({
+  user,
 }: {
-  session: Maybe<Session>;
+  user: Maybe<User>;
   req: CreateContextOptions['req'];
 }) => {
-  if (!session?.user?.id) {
+  if (!user?.id) {
     return null;
   }
 
-  const user = await prisma.user.findUnique({
+  const userDetails = await prisma.user.findUnique({
     where: {
-      id: session.user.id || '',
+      id: user.id || '',
     },
     select: {
       id: true,
-      email: true,
-      name: true,
       canvasToken: true,
+      email: true,
       credentials: {
         select: {
           id: true,
@@ -39,11 +38,11 @@ const getUserFromSession = async ({
     },
   });
 
-  if (!user) {
+  if (!userDetails) {
     return null;
   }
 
-  return user;
+  return userDetails;
 };
 /**
  * Creates context for an incoming request
@@ -52,19 +51,18 @@ const getUserFromSession = async ({
 export const createContext = async ({ req, res }: trpcNext.CreateNextContextOptions) => {
   // for API-response caching see https://trpc.io/docs/caching
 
-  const session = await getSession({ req });
+  const { data } = await auth.api.getUserByCookie(req);
 
-  const user = await getUserFromSession({ session, req });
+  const user = await getUserDetails({ user: data, req });
 
-  if (session?.user?.canvasToken) {
-    gqlClient.setHeader('Authorization', `Bearer ${session?.user?.canvasToken}`);
-    canvasAxios.defaults.headers.common.Authorization = `Bearer ${session.user.canvasToken}`;
+  if (user?.canvasToken) {
+    gqlClient.setHeader('Authorization', `Bearer ${user?.canvasToken}`);
+    canvasAxios.defaults.headers.common.Authorization = `Bearer ${user.canvasToken}`;
   }
   return {
     req,
     res,
     prisma,
-    session,
     gqlSdk,
     canvasAxios,
     user,

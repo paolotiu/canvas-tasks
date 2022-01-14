@@ -1,6 +1,6 @@
 import { google } from 'googleapis';
 import { NextApiHandler } from 'next';
-import { getSession } from 'next-auth/react';
+import { auth } from '@/lib/supabase';
 
 const credentials = process.env.GOOGLE_API_CREDENTIALS as string;
 
@@ -12,7 +12,7 @@ const scopes = [
 const handler: NextApiHandler = async (req, res) => {
   if (req.method === 'GET') {
     // Check that user is authenticated
-    const session = await getSession({ req });
+    const session = await auth.api.getUserByCookie(req);
 
     if (!session) {
       res.status(401).json({ message: 'You must be logged in to do this' });

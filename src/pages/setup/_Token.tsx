@@ -1,11 +1,11 @@
 import { QuestionMarkCircledIcon, Cross2Icon } from '@radix-ui/react-icons';
 import React from 'react';
 import { useDebouncedCallback } from 'use-debounce';
-import { useSession } from 'next-auth/react';
 import * as Popper from '@/components/PopperDialog';
 import { AccordionContent } from '@/components/Accordion/SetupAccordion';
 import { trpc } from '@/lib/utils/trpc';
 import { useSetupService } from './MachineContext';
+import { useUser } from '@/lib/auth/useUser';
 
 const HowToGetToken = () => {
   return (
@@ -47,20 +47,20 @@ const statusMap = {
   success: () => <StatusText label="Success!" />,
 };
 const _Token = () => {
-  const { data } = useSession();
+  const { user } = useUser();
   const setupService = useSetupService();
 
   const { mutate, isSuccess, status } = trpc.useMutation('setCanvasToken', {
-    onSuccess: (user) => {
+    onSuccess: (_user) => {
       setupService.send({
         type: 'updateToken',
-        canvasToken: user.canvasToken || '',
+        canvasToken: _user.canvasToken || '',
       });
     },
   });
 
   const debouncedMutation = useDebouncedCallback((token: string) => {
-    mutate({ token, userId: data?.user?.id || '' });
+    mutate({ token, userId: user?.id || '' });
   }, 500);
 
   const Status = statusMap[status];
@@ -75,7 +75,7 @@ const _Token = () => {
       }}
     >
       <div tw="grid gap-2">
-        <div tw="text-slate12">
+        <div tw="text-radix-slate12">
           <h3 tw="font-medium text-lg pb-1">Enter Canvas Token</h3>
           <div tw="flex">
             <input

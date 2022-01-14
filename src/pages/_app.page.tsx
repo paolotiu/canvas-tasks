@@ -1,5 +1,4 @@
 import type { AppProps } from 'next/app';
-import { SessionProvider } from 'next-auth/react';
 import { withTRPC } from '@trpc/next';
 import { AppRouter } from 'src/server';
 import { IdProvider } from '@radix-ui/react-id';
@@ -10,13 +9,14 @@ import { httpLink } from '@trpc/client/links/httpLink';
 import { splitLink } from '@trpc/client/links/splitLink';
 import globalStyles from '@/styles/globalStyles';
 import Protected from '@/components/Auth/Protected';
+import { UserContextProvider } from '@/lib/auth/useUser';
 
 function MyApp({ Component, pageProps }: AppProps) {
   globalStyles();
 
   return (
-    <SessionProvider session={pageProps.session}>
-      <IdProvider>
+    <IdProvider>
+      <UserContextProvider>
         {(Component as any).auth ? (
           <Protected>
             <Component {...pageProps} />
@@ -24,8 +24,8 @@ function MyApp({ Component, pageProps }: AppProps) {
         ) : (
           <Component {...pageProps} />
         )}
-      </IdProvider>
-    </SessionProvider>
+      </UserContextProvider>
+    </IdProvider>
   );
 }
 

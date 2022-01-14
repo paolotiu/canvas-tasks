@@ -1,16 +1,18 @@
 import React, { useEffect } from 'react';
-import { getSession, useSession } from 'next-auth/react';
 import { useInterpret, useSelector } from '@xstate/react';
 import { FiCheck } from 'react-icons/fi';
 import { styled } from 'twin.macro';
 import { keyframes } from '@stitches/react';
 import { useRouter } from 'next/dist/client/router';
 import { GetServerSideProps } from 'next';
-import { Accordion, AccordionItem, AccordionTrigger } from '@/components/Accordion';
+import { Accordion, AccordionItem, AccordionTrigger } from '@/components/Accordion/SetupAccordion';
 import Token from './_Token';
 import { setupMachine } from '@/modules/setup/machine';
 import { MachineContext } from './MachineContext';
 import Confetti from '@/components/Confetti/Confetti';
+import { auth } from '@/lib/supabase';
+import { prisma } from '@/server/prisma';
+import { useUser } from '@/lib/auth/useUser';
 
 const ids = ['a-1', 'a-2', 'a-3'];
 
@@ -36,7 +38,7 @@ const StyledCheckIcon = styled(FiCheck, {
   },
 });
 const Setup = () => {
-  const { data, status } = useSession();
+  const { status, userDetails } = useUser();
   const setupService = useInterpret(setupMachine);
   const hasFinishedToken = useSelector(setupService, (state) => state.context.hasFinishedToken);
   const isFinished = useSelector(setupService, (state) => state.matches('finished'));
@@ -45,9 +47,9 @@ const Setup = () => {
 
   useEffect(() => {
     if (status !== 'loading') {
-      setupService.send('updateToken', { canvasToken: data?.user?.canvasToken || '' });
+      setupService.send('updateToken', { canvasToken: userDetails?.canvasToken || '' });
     }
-  }, [data?.user?.canvasToken, setupService, status]);
+  }, [setupService, status, userDetails?.canvasToken]);
 
   useEffect(() => {
     const subscription = setupService.subscribe((state) => {
@@ -63,7 +65,7 @@ const Setup = () => {
 
   return (
     <MachineContext.Provider value={{ setupService }}>
-      <main tw="grid min-h-screen bg-slate2 place-items-center">
+      <main tw="grid min-h-screen bg-mauve2 place-items-center">
         <div tw="flex flex-col  items-center mb-80">
           <h1 tw="mb-10 text-3xl font-bold">Let&apos;s get you set up!</h1>
           <Accordion
@@ -95,9 +97,9 @@ const Setup = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async (ctx) => {
-  const session = await getSession(ctx);
+  const { data } = await auth.api.getUserByCookie(ctx.req);
 
-  if (!session) {
+  if (!data) {
     return {
       redirect: {
         permanent: false,
@@ -105,7 +107,13 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
       },
     };
   }
-  if (session?.user?.canvasToken) {
+  const user = await prisma.user.findUnique({
+    where: {
+      id: data?.id,
+    },
+  });
+
+  if (user?.canvasToken) {
     return {
       redirect: {
         permanent: false,

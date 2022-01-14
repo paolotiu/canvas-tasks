@@ -4,8 +4,8 @@ import { IconApps } from '@tabler/icons';
 import tw, { styled } from 'twin.macro';
 import { useRouter } from 'next/router';
 import { ExitIcon, ReaderIcon } from '@radix-ui/react-icons';
-import { signOut } from 'next-auth/react';
 import Link from '@/components/Link/Link';
+import { useUser } from '@/lib/auth/useUser';
 
 const StyledSidebarNavItem = styled(Link, {
   variants: {
@@ -24,6 +24,7 @@ const SidebarNavItem = (props: ComponentProps<typeof StyledSidebarNavItem>) => {
 };
 
 const Sidebar = () => {
+  const { signOut } = useUser();
   return (
     <aside tw="h-screen sticky top-0 w-56 border-r px-2 hidden md:flex flex-col justify-between bg-white py-5">
       <nav tw="grid gap-2">
@@ -42,9 +43,7 @@ const Sidebar = () => {
         type="button"
         tw="flex items-center text-sm p-2 hover:bg-red4 rounded-sm"
         onClick={() => {
-          signOut({
-            callbackUrl: process.env.NEXT_PUBLIC_APP_URL,
-          });
+          signOut();
         }}
       >
         <ExitIcon tw="mr-2" />
