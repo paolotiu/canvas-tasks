@@ -11,4 +11,4 @@ export const getServiceSupabase = () =>
     process.env.SUPABASE_SERVICE_KEY as string
   );
 
-export const { auth } = supabase;
+export const { auth, storage } = supabase;

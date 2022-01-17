@@ -1,0 +1,95 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String
+  refresh_token      String?
+  access_token       String?
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String?
+  session_state      String?
+  oauth_token_secret String?
+  oauth_token        String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Credential {
+  id                  String               @id @default(uuid())
+  type                String
+  key                 Json
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String
+  connectedGoogleTask ConnectedGoogleTask?
+
+  @@unique([id, userId])
+}
+
+model ConnectedGoogleTask {
+  id                      String                        @id @default(uuid())
+  integration             Credential                    @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  integrationId           String                        @unique
+  user                    User                          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                  String
+  includeDiscussionTopics Boolean                       @default(true)
+  includeAssignments      Boolean                       @default(true)
+  includeQuizzes          Boolean                       @default(true)
+  connectedTaskId         String
+  createdAt               DateTime                      @default(now())
+  updatedAt               DateTime                      @updatedAt
+  plannerItems            PlannerItemOnConnGoogleTask[]
+
+  @@unique([userId, integrationId])
+}
+
+model PlannerItemOnConnGoogleTask {
+  // Google task item id
+  googleTaskId          String
+  plannerItem           PlannerItem         @relation(fields: [plannerItemId], references: [id], onDelete: Cascade)
+  plannerItemId         String
+  connectedGoogleTaskId String
+  connectedTask         ConnectedGoogleTask @relation(fields: [connectedGoogleTaskId], references: [id], onDelete: Cascade)
+
+  @@id([plannerItemId, connectedGoogleTaskId])
+}
+
+model PlannerItem {
+  id                   String                        @id
+  updatedAt            DateTime
+  connectedGoogleTasks PlannerItemOnConnGoogleTask[]
+}
+
+model User {
+  id                  String                @id @default(cuid())
+  name                String?
+  email               String?               @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  canvasToken         String?
+  credentials         Credential[]
+  connectedGoogleTask ConnectedGoogleTask[]
+}

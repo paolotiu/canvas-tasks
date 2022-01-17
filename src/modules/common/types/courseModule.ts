@@ -4,7 +4,8 @@ export type ModuleItemType =
   | 'Assignment'
   | 'Quiz'
   | 'ExternalTool'
-  | 'File';
+  | 'File'
+  | 'SubHeader';
 export interface RESTLockInfo {
   lock_at: Date | string;
   can_view: boolean;

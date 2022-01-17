@@ -2,6 +2,7 @@ import { createRouter } from 'src/server/createRouter';
 
 import { z } from 'zod';
 import { RESTCourseModule } from '../common/types';
+import { RESTModuleItem, RESTModuleItemWithType } from '../common/types/moduleItem';
 
 export const coursesRouter = createRouter()
   .query('courses', {
@@ -30,5 +31,28 @@ export const coursesRouter = createRouter()
       });
 
       return res.data;
+    },
+  })
+  .query('moduleItem', {
+    input: z.object({
+      type: z.enum([
+        'assignments',
+        'discussion_topics',
+        'files',
+        'pages',
+        'quizzes',
+        'external_tools',
+      ]),
+      slug: z.string(),
+      courseId: z.string(),
+    }),
+    resolve: async ({ ctx: { canvasAxios, res: _res }, input: { type, slug, courseId } }) => {
+      const res = await canvasAxios.get<RESTModuleItem>(`/courses/${courseId}/${type}/${slug}`);
+
+      _res.setHeader('cache-control', 'max-age=10');
+      return {
+        ...res.data,
+        type,
+      } as RESTModuleItemWithType;
     },
   });

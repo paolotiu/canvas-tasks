@@ -1,0 +1,100 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["referentialIntegrity"]
+
+}
+
+datasource db {
+  provider             = "mysql"
+  url                  = env("DATABASE_URL")
+  shadowDatabaseUrl    = env("SHADOW_DATABASE_URL")
+  referentialIntegrity = "prisma"
+
+}
+
+model Account {
+  id                 String  @id @default(cuid())
+  userId             String
+  type               String  @db.VarChar(256)
+  provider           String  @db.VarChar(256)
+  providerAccountId  String  @db.VarChar(256)
+  refresh_token      String? @db.VarChar(256)
+  access_token       String? @db.VarChar(256)
+  expires_at         Int?
+  token_type         String? @db.VarChar(256)
+  scope              String? @db.VarChar(256)
+  id_token           String? @db.Text
+  session_state      String? @db.VarChar(256)
+  oauth_token_secret String? @db.VarChar(256)
+  oauth_token        String? @db.VarChar(256)
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Credential {
+  id                  String               @id @default(uuid())
+  type                String
+  key                 Json
+  user                User                 @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId              String
+  connectedGoogleTask ConnectedGoogleTask?
+
+  @@unique([id, userId])
+}
+
+model ConnectedGoogleTask {
+  id                      String                        @id @default(uuid())
+  integration             Credential                    @relation(fields: [integrationId], references: [id], onDelete: Cascade)
+  integrationId           String                        @unique
+  user                    User                          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId                  String
+  includeDiscussionTopics Boolean                       @default(true)
+  includeAssignments      Boolean                       @default(true)
+  includeQuizzes          Boolean                       @default(true)
+  connectedTaskId         String
+  createdAt               DateTime                      @default(now())
+  updatedAt               DateTime                      @updatedAt
+  plannerItems            PlannerItemOnConnGoogleTask[]
+
+  @@unique([userId, integrationId])
+}
+
+model PlannerItemOnConnGoogleTask {
+  // Google task item id
+  googleTaskId          String
+  plannerItem           PlannerItem         @relation(fields: [plannerItemId], references: [id], onDelete: Cascade)
+  plannerItemId         String
+  connectedGoogleTaskId String
+  connectedTask         ConnectedGoogleTask @relation(fields: [connectedGoogleTaskId], references: [id], onDelete: Cascade)
+
+  @@id([plannerItemId, connectedGoogleTaskId])
+}
+
+model PlannerItem {
+  id                   String                        @id
+  updatedAt            DateTime
+  connectedGoogleTasks PlannerItemOnConnGoogleTask[]
+}
+
+model User {
+  id                  String                @id @default(cuid())
+  name                String?
+  email               String?               @unique
+  emailVerified       DateTime?
+  image               String?
+  accounts            Account[]
+  sessions            Session[]
+  canvasToken         String?
+  credentials         Credential[]
+  connectedGoogleTask ConnectedGoogleTask[]
+}
