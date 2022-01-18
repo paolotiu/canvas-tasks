@@ -51,7 +51,7 @@ export const getNewPlannerItems = async ({ connectedGoogleTaskId }: GetNewPlanne
       return [...arr, item];
     }
 
-    if (existing.updatedAt !== new Date(item.plannable.updated_at)) {
+    if (existing.updatedAt.getTime() !== new Date(item.plannable.updated_at).getTime()) {
       // Date changed
       return [
         ...arr,

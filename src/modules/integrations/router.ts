@@ -28,9 +28,9 @@ export const integrationsRouter = createRouter()
           },
         },
       });
-
       const integrationsWithEmail = await Promise.all(
         integrations.map(async (item) => {
+          if (item.type !== 'google_tasks') return;
           const gAuth = await googleAuth(item)?.getToken();
 
           if (gAuth) {
@@ -53,7 +53,11 @@ export const integrationsRouter = createRouter()
         })
       );
 
-      return integrationsWithEmail;
+      const cleanedIntegrations = integrationsWithEmail.filter(Boolean) as NonNullable<
+        typeof integrationsWithEmail[0]
+      >[];
+
+      return cleanedIntegrations;
     },
   })
   .mutation('deleteIntegration', {

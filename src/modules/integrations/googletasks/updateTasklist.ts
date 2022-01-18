@@ -79,10 +79,12 @@ export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskLis
 
         await tasksService.tasks.update({
           tasklist: tasklistId,
+          task: item.connectedTaskId,
           requestBody: {
+            id: item.connectedTaskId,
             title: item.plannable.title,
             due: item.plannable.due_at?.toString(),
-            notes: `${item.context_name}
+            notes: `${item.context_name},
 
   https://ateneo.instructure.com${item.html_url}`, // Change this to be more dynamic later
           },
@@ -103,11 +105,18 @@ export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskLis
     updatedAt: new Date(item.plannable.updated_at),
   }));
 
+  console.time('a');
+
   await prisma.$transaction([
-    prisma.plannerItem.createMany({
-      data: updatedPlannerItems,
-      skipDuplicates: true,
-    }),
+    ...updatedPlannerItems.map((item) =>
+      prisma.plannerItem.upsert({
+        where: { id: item.id },
+        update: {
+          updatedAt: item.updatedAt,
+        },
+        create: item,
+      })
+    ),
 
     prisma.connectedGoogleTask.update({
       where: {
@@ -127,4 +136,6 @@ export const updateTasklist = async ({ credential, plannerItems }: UpdateTaskLis
       skipDuplicates: true,
     }),
   ]);
+
+  console.timeEnd('a');
 };
