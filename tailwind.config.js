@@ -13,6 +13,9 @@ module.exports = {
         ...grayDark,
         ...mauve,
         ...red,
+        radix: {
+          ...slate,
+        },
         success: grass.grass8,
         danger: {
           MAIN: red.red8,
@@ -21,7 +24,7 @@ module.exports = {
           ...darkGray,
         },
 
-        gray: colors.trueGray,
+        gray: colors.neutral,
       },
       boxShadow: {},
       maxWidth: {
@@ -34,5 +37,5 @@ module.exports = {
   variants: {
     extend: {},
   },
-  plugins: [require('@tailwindcss/line-clamp')],
+  plugins: [require('@tailwindcss/line-clamp'), require('@tailwindcss/typography')],
 };
