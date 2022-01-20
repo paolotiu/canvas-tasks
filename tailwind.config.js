@@ -24,6 +24,11 @@ module.exports = {
           ...darkGray,
         },
 
+        notion: {
+          dark: '#2f3437',
+          darkHover: '#44494b',
+          'text-dark': 'rgba(255, 255, 255, 0.9)',
+        },
         gray: colors.neutral,
       },
       boxShadow: {},

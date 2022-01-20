@@ -4,6 +4,7 @@ import React from 'react';
 import { keyframes } from '@stitches/react';
 import { blackA, mauve } from '@radix-ui/colors';
 import { ChevronDownIcon, DotsVerticalIcon } from '@radix-ui/react-icons';
+import { Popover, PopoverContent, PopoverTrigger } from '../Popover';
 
 const slideDown = keyframes({
   from: { height: 0 },
@@ -93,8 +94,9 @@ export const AccordionTrigger = React.forwardRef<
     icon?: React.ReactNode;
     title: string;
     onOptionsClick?: () => void;
+    PopoverStuff?: React.ReactNode;
   }
->(({ children, icon, title, onOptionsClick, ...props }, forwardedRef) => {
+>(({ children, icon, title, onOptionsClick, PopoverStuff, ...props }, forwardedRef) => {
   return (
     <StyledHeader>
       <StyledTrigger {...props} ref={forwardedRef}>
@@ -104,17 +106,21 @@ export const AccordionTrigger = React.forwardRef<
             {title}
           </p>
         </div>
-        <button
-          type="button"
-          tw="p-2 hover:bg-mauve5 rounded-sm transition-colors flex-shrink-0"
-          onClick={(e) => {
-            // Prevent accordion from closing
-            e.stopPropagation();
-            onOptionsClick?.();
-          }}
-        >
-          <DotsVerticalIcon />
-        </button>
+
+        <Popover>
+          <PopoverTrigger
+            type="button"
+            tw="p-2 hover:bg-mauve5 rounded-sm transition-colors flex-shrink-0"
+            onClick={(e) => {
+              // Prevent accordion from closing
+              e.stopPropagation();
+              onOptionsClick?.();
+            }}
+          >
+            <DotsVerticalIcon />
+          </PopoverTrigger>
+          <PopoverContent sideOffset={5}>{PopoverStuff}</PopoverContent>
+        </Popover>
       </StyledTrigger>
     </StyledHeader>
   );
