@@ -8,6 +8,7 @@ const StyledSwitch = styled(SwitchPrimitive.Root, {
   height: 20,
   WebkitTapHighlightColor: 'rgba(0, 0, 0, 0)',
   ...tw`relative rounded-full cursor-pointer bg-mauve8`,
+  '&:focus': { boxShadow: `0 0 0 2px black` },
   '&[data-state="checked"]': tw`bg-gray-800`,
 });
 
