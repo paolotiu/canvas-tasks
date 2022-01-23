@@ -4549,6 +4549,11 @@ export type AQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type AQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', name: string, assignmentsConnection?: { __typename?: 'AssignmentConnection', nodes?: Array<{ __typename?: 'Assignment', name?: string | null | undefined, dueAt?: any | null | undefined } | null | undefined> | null | undefined } | null | undefined }> | null | undefined };
 
+export type AllCoursesIdCodeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type AllCoursesIdCodeQuery = { __typename?: 'Query', allCourses?: Array<{ __typename?: 'Course', id: string, _id: string, courseCode?: string | null | undefined }> | null | undefined };
+
 export type AllCoursesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -4585,6 +4590,15 @@ export const ADocument = gql`
         dueAt
       }
     }
+  }
+}
+    `;
+export const AllCoursesIdCodeDocument = gql`
+    query allCoursesIdCode {
+  allCourses {
+    id
+    _id
+    courseCode
   }
 }
     `;
@@ -4670,6 +4684,7 @@ export type SdkFunctionWrapper = <T>(action: (requestHeaders?:Record<string, str
 
 const defaultWrapper: SdkFunctionWrapper = (action, _operationName) => action();
 const ADocumentString = print(ADocument);
+const AllCoursesIdCodeDocumentString = print(AllCoursesIdCodeDocument);
 const AllCoursesDocumentString = print(AllCoursesDocument);
 const CourseModulesDocumentString = print(CourseModulesDocument);
 const AllCoursesAssigmentsDocumentString = print(AllCoursesAssigmentsDocument);
@@ -4678,6 +4693,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     A(variables?: AQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<AQuery>(ADocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'A');
+    },
+    allCoursesIdCode(variables?: AllCoursesIdCodeQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesIdCodeQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
+        return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesIdCodeQuery>(AllCoursesIdCodeDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'allCoursesIdCode');
     },
     AllCourses(variables?: AllCoursesQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<{ data?: AllCoursesQuery | undefined; extensions?: any; headers: Dom.Headers; status: number; errors?: GraphQLError[] | undefined; }> {
         return withWrapper((wrappedRequestHeaders) => client.rawRequest<AllCoursesQuery>(AllCoursesDocumentString, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'AllCourses');

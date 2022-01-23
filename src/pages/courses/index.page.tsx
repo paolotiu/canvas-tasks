@@ -14,10 +14,10 @@ const Courses = () => {
           gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
         }}
       >
-        {data?.allCourses?.map((course) => {
+        {data?.map((course) => {
           return (
             <Link
-              href={`/courses/${course._id}`}
+              href={`/courses/${course.id}`}
               key={course.id}
               tw="bg-white pb-4 rounded-sm shadow-sm cursor-pointer border hover:bg-mauve2 transition-colors"
             >
@@ -25,14 +25,16 @@ const Courses = () => {
                 tw="h-32"
                 style={{
                   backgroundSize: 'cover',
-                  backgroundImage: course.imageUrl ? `url(${course.imageUrl})` : '',
+                  backgroundImage: course.image_download_url
+                    ? `url(${course.image_download_url})`
+                    : '',
                   backgroundPosition: 'center center',
                   backgroundRepeat: 'no-repeat',
                 }}
               ></div>
               <div tw="px-4 pt-4">
                 <h5 tw="text-sm line-clamp-1">{course.name}</h5>
-                <h3 tw="font-medium">{course.courseCode}</h3>
+                <h3 tw="font-medium">{course.course_code}</h3>
                 <p tw="text-xs text-mauve11">{course.term?.name}</p>
               </div>
             </Link>
@@ -44,3 +46,4 @@ const Courses = () => {
 };
 
 export default Courses;
+Courses.auth = true;

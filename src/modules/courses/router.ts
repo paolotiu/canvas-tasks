@@ -2,21 +2,28 @@ import { createRouter } from 'src/server/createRouter';
 
 import { z } from 'zod';
 import { RESTCourseModule } from '../common/types';
+import { RESTCanvasCourse } from '../common/types/courses';
 import { RESTModuleItem, RESTModuleItemWithType } from '../common/types/moduleItem';
 
 export const coursesRouter = createRouter()
   .query('courses', {
-    resolve: async ({ ctx: { gqlSdk } }) => {
-      try {
-        const { status, data } = await gqlSdk.AllCourses();
+    resolve: async ({ ctx: { canvasAxios } }) => {
+      const { data } = await canvasAxios.get<RESTCanvasCourse[]>('/courses', {
+        params: {
+          include: ['term', 'course_image'],
+        },
+      });
 
-        if (status === 401 || !data) {
-          return {};
+      return data.reduce((acc, curr) => {
+        if (!curr.term) {
+          return acc;
         }
-        return data;
-      } catch (error) {
-        return {};
-      }
+        // Do not include ended courses
+        if (!curr.term.end_at || new Date(curr.term.end_at).getTime() > new Date().getTime()) {
+          return [...acc, curr];
+        }
+        return acc;
+      }, [] as RESTCanvasCourse[]);
     },
   })
   .query('modules', {
