@@ -20,12 +20,17 @@ export enum RESTModuleItemType {
   ExternalTools = 'external_tools',
 }
 
-export type RESTModuleItem = RESTCanvasPage | RESTCanvasQuiz | RESTCanvasDisscusionTopic;
+export type RESTModuleItem =
+  | RESTCanvasPage
+  | RESTCanvasQuiz
+  | RESTCanvasDisscusionTopic
+  | RESTCanvasAssignment;
 
 export type RESTModuleItemWithType =
   | (RESTCanvasPage & { type: RESTModuleItemType.Pages })
   | (RESTCanvasQuiz & { type: RESTModuleItemType.Quizzes })
-  | (RESTCanvasDisscusionTopic & { type: RESTModuleItemType.DiscussionTopics });
+  | (RESTCanvasDisscusionTopic & { type: RESTModuleItemType.DiscussionTopics })
+  | (RESTCanvasAssignment & { type: RESTModuleItemType.Assignments });
 
 export interface RESTCanvasPage {
   url: string;
@@ -129,4 +134,73 @@ export interface RESTCanvasDisscusionTopic {
   allow_rating: boolean;
   only_graders_can_rate: boolean;
   sort_by_rating: boolean;
+}
+
+export interface RESTCanvasAssignment {
+  all_dates?: any;
+  allowed_attempts: number;
+  allowed_extensions: string[];
+  annotatable_attachment_id?: any;
+  anonymous_grading: boolean;
+  anonymous_submissions: boolean;
+  assignment_group_id: number;
+  assignment_visibility: number[];
+  automatic_peer_reviews: boolean;
+  can_submit: boolean;
+  course_id: number;
+  created_at: Date;
+  description: string;
+  discussion_topic?: any;
+  due_at: Date;
+  due_date_required: boolean;
+  external_tool_tag_attributes?: any;
+  final_grader_id: number;
+  freeze_on_copy: boolean;
+  frozen_attributes: string[];
+  frozen: boolean;
+  grade_group_students_individually: boolean;
+  grader_comments_visible_to_graders: boolean;
+  grader_count: number;
+  grader_names_visible_to_final_grader: boolean;
+  graders_anonymous_to_graders: boolean;
+  grading_standard_id?: any;
+  grading_type: string;
+  group_category_id: number;
+  has_overrides: boolean;
+  has_submitted_submissions: boolean;
+  html_url: string;
+  intra_group_peer_reviews: boolean;
+  lock_at: Date;
+  lock_explanation: string;
+  lock_info?: any;
+  locked_for_user: boolean;
+  max_name_length: number;
+  moderated_grading: boolean;
+  name: string;
+  needs_grading_count: number;
+  omit_from_final_grade: boolean;
+  only_visible_to_overrides: boolean;
+  overrides?: any;
+  peer_review_count: number;
+  peer_reviews_assign_at: Date;
+  peer_reviews: boolean;
+  points_possible: number;
+  position: number;
+  post_manually: boolean;
+  post_to_sis: boolean;
+  published: boolean;
+  quiz_id: number;
+  rubric?: any;
+  score_statistics?: any;
+  submission_types: string[];
+  submission?: any;
+  submissions_download_url: string;
+  turnitin_enabled: boolean;
+  turnitin_settings?: any;
+  unlock_at: Date;
+  unpublishable: boolean;
+  updated_at: Date;
+  use_rubric_for_grading: boolean;
+  vericite_enabled: boolean;
+  d: number;
 }

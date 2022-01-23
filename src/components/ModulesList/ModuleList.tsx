@@ -73,7 +73,7 @@ const ModulesList = ({ moduleNode, courseId }: Props) => {
             if (item.type === 'SubHeader' || !type || !id) {
               return (
                 <div
-                  tw="bg-white px-5 py-3 border-b last:border-none cursor-pointer hover:bg-mauve2 text-gray-700 transition duration-100 hover:text-mauve12 min-w-0 block"
+                  tw="bg-white px-5 py-3 border-b last:border-none text-gray-700 transition duration-100 hover:text-mauve12 min-w-0 block"
                   key={item.id}
                 >
                   <p

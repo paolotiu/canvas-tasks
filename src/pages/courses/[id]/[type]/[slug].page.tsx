@@ -29,53 +29,50 @@ const ItemPage = () => {
 
   const { id, type, slug } = router.query as { id: string; type: RESTModuleItemType; slug: string };
 
-  const { data } = trpc.useQuery(['moduleItem', { courseId: id, slug, type }], {});
+  const { data } = trpc.useQuery(['moduleItem', { courseId: id, slug, type }], {
+    staleTime: Infinity,
+  });
   const articleRef = useRef<HTMLElement | null>(null);
+
+  let html = '';
+  let title = '';
 
   if (!data) {
     return null;
   }
 
   if (data.type === 'pages') {
-    return (
-      <MainLayout>
-        <ArticleContainer>
-          <a href={data.html_url}>Original</a>
-          <Article
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              // Remove all style tags
-              __html: `<h1> ${data.title} </h1> ${data.body.replace(regex, '')}`,
-            }}
-          ></Article>
-        </ArticleContainer>
-      </MainLayout>
-    );
+    html = data.body;
+    title = data.title;
+  } else if (data.type === 'discussion_topics') {
+    html = data.message;
+
+    title = data.title;
+  } else if (data.type === 'assignments') {
+    html = data.description;
+    title = data.name;
   }
 
-  if (data.type === 'discussion_topics') {
-    return (
-      <MainLayout>
-        <ArticleContainer tw="flex flex-col items-center">
-          <div className="bar" tw="bg-mauve4 rounded-t-sm px-4 py-2 w-full border border-b-0">
-            <button type="button" tw="ml-auto block p-2 hover:bg-mauve5 rounded-sm ">
-              <DotsVerticalIcon />
-            </button>
-          </div>
-          <Article
-            ref={articleRef}
-            // eslint-disable-next-line react/no-danger
-            dangerouslySetInnerHTML={{
-              // Remove all style tags
-              __html: `<h1> ${data.title} </h1> ${data.message.replace(regex, '')}`,
-            }}
-          ></Article>
-          <hr tw="my-10" />
-        </ArticleContainer>
-      </MainLayout>
-    );
-  }
-  return null;
+  return (
+    <MainLayout>
+      <ArticleContainer tw="flex flex-col items-center">
+        <div className="bar" tw="bg-mauve4 rounded-t-sm px-4 py-2 w-full border border-b-0">
+          <button type="button" tw="ml-auto block p-2 hover:bg-mauve5 rounded-sm ">
+            <DotsVerticalIcon />
+          </button>
+        </div>
+        <Article
+          ref={articleRef}
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{
+            // Remove all style tags
+            __html: `<h1> ${title} </h1> ${html.replace(regex, '')}`,
+          }}
+        ></Article>
+        <hr tw="my-10" />
+      </ArticleContainer>
+    </MainLayout>
+  );
 };
 
 export default ItemPage;

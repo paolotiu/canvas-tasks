@@ -1,5 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+
 import MainLayout from '@/components/Layouts/MainLayout';
 import { trpc } from '@/lib/utils/trpc';
 
@@ -16,15 +17,16 @@ const CoursePage = () => {
         id,
       },
     ],
-    { staleTime: Infinity }
+    {
+      staleTime: Infinity,
+    }
   );
 
   return (
     <MainLayout>
-      <div tw="grid gap-7 justify-items-center" style={{ gridTemplateColumns: '1fr' }}>
+      <div tw="grid gap-10 justify-items-center">
         {data?.map((mod) => {
-          if (!mod) return null;
-          return <ModuleList moduleNode={mod} key={mod.name} />;
+          return <ModuleList key={mod.id} courseId={id} moduleNode={mod} />;
         })}
       </div>
     </MainLayout>
@@ -32,3 +34,4 @@ const CoursePage = () => {
 };
 
 export default CoursePage;
+CoursePage.auth = true;
