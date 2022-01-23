@@ -15,9 +15,14 @@ const Login = () => {
             type="button"
             tw="border px-6 py-3 rounded-sm hover:bg-mauve2 flex items-center justify-center space-x-3 mt-8 w-full"
             onClick={async () => {
-              await signIn({
-                provider: 'google',
-              });
+              await signIn(
+                {
+                  provider: 'google',
+                },
+                {
+                  redirectTo: 'http://localhost:3000/provider',
+                }
+              );
 
               // await signOut({
               //   redirect: false,

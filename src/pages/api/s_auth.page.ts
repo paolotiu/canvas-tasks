@@ -1,6 +1,7 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { supabase } from '@/lib/supabase';
+import { goTrue } from '@/lib/supabase';
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  supabase.auth.api.setAuthCookie(req, res);
+  goTrue.api.setAuthCookie(req, res);
+  // supabase.auth.api.setAuthCookie(req, res);
 }

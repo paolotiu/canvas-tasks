@@ -45,6 +45,9 @@ export const UserContextProvider = (props: any) => {
       setSession(sess);
       setUser(sess?.user || null);
 
+      // if (event === 'SIGNED_IN') {
+      //   Router.push('/integrations');
+      // }
       // eslint-disable-next-line no-empty
       if (sess?.user) {
       } else {
@@ -75,7 +78,13 @@ export const UserContextProvider = (props: any) => {
       userDetails,
       // eslint-disable-next-line no-nested-ternary
       status: isUserLoading ? 'loading' : session ? 'authenticated' : 'unauthenticated',
-      signIn: (creds: UserCredentials) => supabase.auth.signIn(creds),
+      signIn: (
+        creds: UserCredentials,
+        options: {
+          redirectTo?: string;
+          scopes?: string;
+        }
+      ) => supabase.auth.signIn(creds, options),
       signOut: () => {
         return supabase.auth.signOut();
       },
