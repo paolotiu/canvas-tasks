@@ -4,6 +4,7 @@ import Image from 'next/image';
 import tw, { styled } from 'twin.macro';
 import { keyframes } from '@stitches/react';
 import { useUser } from '@/lib/auth/useUser';
+import { APP_URL } from '@/lib/config';
 
 const slideDown = keyframes({
   from: { height: 0 },
@@ -41,7 +42,7 @@ const AccordionContent = styled(Accordion.Content, {
 const NotionWidgets = () => {
   const { user } = useUser();
 
-  const userAnnouncementsWidget = `http://localhost:3000/notion/${user?.id}/announcements`;
+  const userAnnouncementsWidget = `${APP_URL}/notion/${user?.id}/announcements`;
 
   return (
     <Accordion.Root type="multiple" tw="bg-white p-4 w-full shadow rounded-sm">

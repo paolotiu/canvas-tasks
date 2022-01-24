@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { useUser } from '@/lib/auth/useUser';
+import { APP_URL } from '@/lib/config';
 
 const Login = () => {
   const { signIn } = useUser();
@@ -20,7 +21,7 @@ const Login = () => {
                   provider: 'google',
                 },
                 {
-                  redirectTo: 'http://localhost:3000/provider',
+                  redirectTo: `${APP_URL}/provider`,
                 }
               );
 

@@ -17,6 +17,7 @@ import {
 } from '@/components/Accordion/ModulesAccordion';
 import { ModuleItemType, RESTCourseModule } from '@/modules/common/types';
 import Link from '../Link/Link';
+import { APP_URL } from '@/lib/config';
 
 interface Props {
   moduleNode: RESTCourseModule;
@@ -48,10 +49,7 @@ const ModulesList = ({ moduleNode, courseId }: Props) => {
                 tw=" hover:bg-mauve3 rounded-sm transition-colors py-2 px-4 flex items-center"
                 onClick={(e) => {
                   e.stopPropagation();
-                  window.open(
-                    `http://localhost:3000/document/${courseId}/${moduleNode.id}`,
-                    '_blank'
-                  );
+                  window.open(`${APP_URL}/document/${courseId}/${moduleNode.id}`, '_blank');
                 }}
               >
                 <DownloadIcon tw="mr-2" />
