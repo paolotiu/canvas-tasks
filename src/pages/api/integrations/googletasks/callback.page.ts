@@ -2,6 +2,7 @@ import { google } from 'googleapis';
 import type { NextApiHandler } from 'next';
 import { prisma } from '@/server/prisma';
 import { auth } from '@/lib/supabase';
+import { APP_URL } from '@/lib/config';
 
 const credentials = process.env.GOOGLE_API_CREDENTIALS;
 
@@ -23,7 +24,7 @@ export const handler: NextApiHandler = async (req, res) => {
   }
 
   const { client_secret, client_id } = JSON.parse(credentials).web;
-  const redirect_uri = process.env.BASE_URL + '/api/integrations/googletasks/callback';
+  const redirect_uri = APP_URL + '/api/integrations/googletasks/callback';
 
   const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
   const token = await oAuth2Client.getToken(code);

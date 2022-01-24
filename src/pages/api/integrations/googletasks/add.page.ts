@@ -1,6 +1,7 @@
 import { google } from 'googleapis';
 import { NextApiHandler } from 'next';
 import { auth } from '@/lib/supabase';
+import { APP_URL } from '@/lib/config';
 
 const credentials = process.env.GOOGLE_API_CREDENTIALS as string;
 
@@ -21,7 +22,7 @@ const handler: NextApiHandler = async (req, res) => {
 
     // Get token from Google Calendar API
     const { client_secret, client_id } = JSON.parse(credentials).web;
-    const redirect_uri = process.env.BASE_URL + '/api/integrations/googletasks/callback';
+    const redirect_uri = APP_URL + '/api/integrations/googletasks/callback';
     const oAuth2Client = new google.auth.OAuth2(client_id, client_secret, redirect_uri);
 
     const authUrl = oAuth2Client.generateAuthUrl({
