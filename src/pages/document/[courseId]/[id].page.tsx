@@ -25,6 +25,7 @@ const Container = styled('div', {
 const ModulePrintable = (props: Props) => {
   useEffect(() => {
     document.body.classList.add('A4');
+    window.print();
   }, []);
 
   return (
