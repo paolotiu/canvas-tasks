@@ -74,6 +74,8 @@ const Notion = ({ items }: InferGetServerSidePropsType<typeof getServerSideProps
 };
 
 export const getServerSideProps: GetServerSideProps<{
+  // Idk this prevents nextjs to build
+  // @ts-ignore
   items: Array<inferQueryOutput<'allAnnouncements'>['0'] & { text: string }>;
   trpcState: any;
 }> = async (ctx) => {
