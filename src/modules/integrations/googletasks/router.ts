@@ -10,8 +10,8 @@ export const googletasksRouter = createRouter()
     input: z.object({
       integrationId: z.string(),
     }),
-    resolve: async ({ ctx: { session, prisma }, input: { integrationId } }) => {
-      if (!session?.user?.id) {
+    resolve: async ({ ctx: { prisma, user }, input: { integrationId } }) => {
+      if (!user?.id) {
         return {
           message: 'Not authenticated',
         };
@@ -21,7 +21,7 @@ export const googletasksRouter = createRouter()
         where: {
           id_userId: {
             id: integrationId,
-            userId: session.user.id,
+            userId: user.id,
           },
         },
         include: {
@@ -61,13 +61,13 @@ export const googletasksRouter = createRouter()
       includeQuizzes: z.boolean().optional(),
       integrationId: z.string(),
     }),
-    resolve: async ({ ctx: { session, prisma }, input }) => {
+    resolve: async ({ ctx: { user, prisma }, input }) => {
       const { integrationId, ...fields } = input;
       await prisma.connectedGoogleTask.update({
         where: {
           userId_integrationId: {
             integrationId: input.integrationId,
-            userId: session?.user?.id || '',
+            userId: user?.id || '',
           },
         },
         data: {
