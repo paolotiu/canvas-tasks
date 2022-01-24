@@ -13,6 +13,9 @@ const schema = z.object({
   urls: z.string().or(z.array(z.string())),
 });
 
+// THIS ROUTE ISNT USED ANYMORE
+// ADD .page in the file if needed
+
 export const handler: NextApiHandler = async (req, res) => {
   const session = await auth.api.getUserByCookie(req);
 
