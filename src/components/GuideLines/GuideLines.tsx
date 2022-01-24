@@ -11,9 +11,9 @@ const GuideWrapper = styled('div', {
     ...tw`absolute top-0 left-0 w-full h-full`,
   },
   '.lines-container': {
-    ...tw`relative grid h-full grid-cols-2 mx-4 md:mx-12`,
+    ...tw`relative grid h-full grid-cols-2 mx-4 900:mx-12`,
 
-    '@md': {
+    '@900': {
       ...tw`grid-cols-4`,
     },
     '@sm': {
@@ -41,7 +41,7 @@ const GridLine = styled('div', {
   '&:nth-of-type(2n)': {
     display: 'none',
 
-    '@md': {
+    '@900': {
       display: 'block',
     },
   },
