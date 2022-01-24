@@ -1,5 +1,6 @@
 const { slate, grayDark, mauve, grass, red } = require('@radix-ui/colors');
 const colors = require('tailwindcss/colors');
+const defaultTheme = require('tailwindcss/defaultTheme');
 
 const darkGray = Object.values(grayDark);
 module.exports = {
@@ -7,6 +8,13 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   mode: 'jit',
   theme: {
+    screens: {
+      900: '900px',
+      ...defaultTheme.screens,
+    },
+    fontFamily: {
+      // sans: ['Outfit', 'sans-serif'],
+    },
     extend: {
       colors: {
         ...slate,
@@ -35,6 +43,10 @@ module.exports = {
       maxWidth: {
         popper: '265px',
       },
+      fontSize: {
+        15: '15px',
+      },
+      screens: {},
     },
     // colors: {
     // },

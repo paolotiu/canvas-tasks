@@ -4,9 +4,6 @@ export type { CSS } from '@stitches/react/types/css-util';
 
 export const { styled, getCssText, theme, globalCss } = createStitches({
   theme: {
-    fonts: {
-      system: 'Inter',
-    },
     colors: {
       hiContrast: 'hsl(206,10%,5%)',
       loContrast: 'white',
@@ -20,5 +17,6 @@ export const { styled, getCssText, theme, globalCss } = createStitches({
   media: {
     sm: '(min-width: 640px)',
     md: '(min-width: 768px)',
+    900: '(min-width: 900px)',
   },
 });
