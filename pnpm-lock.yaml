@@ -69,6 +69,7 @@ specifiers:
   puppeteer-core: ^13.0.1
   react: 17.0.2
   react-dom: 17.0.2
+  react-hot-toast: ^2.2.0
   react-icons: ^4.3.1
   react-query: ^3.26.0
   tailwindcss: ^2.2.19
@@ -121,6 +122,7 @@ dependencies:
   puppeteer-core: 13.0.1
   react: 17.0.2
   react-dom: 17.0.2_react@17.0.2
+  react-hot-toast: 2.2.0_react-dom@17.0.2+react@17.0.2
   react-icons: 4.3.1_react@17.0.2
   react-query: 3.26.0_react-dom@17.0.2+react@17.0.2
   twin.macro: 2.8.0
@@ -5490,6 +5492,12 @@ packages:
       slash: 3.0.0
     dev: true
 
+  /goober/2.1.7:
+    resolution: {integrity: sha512-aCR8u3A/tTgSrZAHfJObhYC0xgdKoYm4GvE/UFmxmzgvj3TSF+3oFYWtmJ459WBewjOIoEsoOG81sDs1rn+W5w==}
+    peerDependencies:
+      csstype: ^2.6.2
+    dev: false
+
   /google-auth-library/7.10.1:
     resolution: {integrity: sha512-nQxgM1ZopUMcpMnu95kOSzI+9tJl4YDOZJomSTBGlRLpxfBopdwto7WvzoI87HuN0nQqVETgOsHi/C/po1rppA==}
     engines: {node: '>=10'}
@@ -7935,6 +7943,20 @@ packages:
       object-assign: 4.1.1
       react: 17.0.2
       scheduler: 0.20.2
+    dev: false
+
+  /react-hot-toast/2.2.0_react-dom@17.0.2+react@17.0.2:
+    resolution: {integrity: sha512-248rXw13uhf/6TNDVzagX+y7R8J183rp7MwUMNkcrBRyHj/jWOggfXTGlM8zAOuh701WyVW+eUaWG2LeSufX9g==}
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16'
+      react-dom: '>=16'
+    dependencies:
+      goober: 2.1.7
+      react: 17.0.2
+      react-dom: 17.0.2_react@17.0.2
+    transitivePeerDependencies:
+      - csstype
     dev: false
 
   /react-icons/4.3.1_react@17.0.2:

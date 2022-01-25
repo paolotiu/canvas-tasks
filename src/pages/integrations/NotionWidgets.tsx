@@ -3,6 +3,7 @@ import { ClipboardCopyIcon } from '@radix-ui/react-icons';
 import Image from 'next/image';
 import tw, { styled } from 'twin.macro';
 import { keyframes } from '@stitches/react';
+import toast from 'react-hot-toast';
 import { useUser } from '@/lib/auth/useUser';
 import { APP_URL } from '@/lib/config';
 
@@ -75,6 +76,7 @@ const NotionWidgets = () => {
                   type="button"
                   onClick={() => {
                     navigator.clipboard.writeText(userAnnouncementsWidget);
+                    toast.success('Link copied');
                   }}
                 >
                   <ClipboardCopyIcon />

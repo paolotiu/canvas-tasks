@@ -4,6 +4,7 @@ import { AppRouter } from 'src/server';
 import { IdProvider } from '@radix-ui/react-id';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { inspect } from '@xstate/inspect';
+import { Toaster } from 'react-hot-toast';
 import { httpBatchLink } from '@trpc/client/links/httpBatchLink';
 import { httpLink } from '@trpc/client/links/httpLink';
 import { splitLink } from '@trpc/client/links/splitLink';
@@ -25,6 +26,13 @@ function MyApp({ Component, pageProps }: AppProps) {
         ) : (
           <Component {...pageProps} />
         )}
+        <Toaster
+          toastOptions={{
+            style: {
+              borderRadius: '4px',
+            },
+          }}
+        />
       </UserContextProvider>
     </IdProvider>
   );
