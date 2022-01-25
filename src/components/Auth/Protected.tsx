@@ -7,19 +7,27 @@ import { auth } from '@/lib/supabase';
 
 interface Props {
   children: JSX.Element;
+  needsCanvasToken?: boolean;
 }
 
-const Protected = ({ children }: Props) => {
-  const { status } = useUser();
+const Protected = ({ children, needsCanvasToken = true }: Props) => {
+  const { status, userDetails } = useUser();
   const router = useRouter();
 
   useEffect(() => {
     if (status === 'unauthenticated') {
       router.push('/signin');
     }
-  }, [router, status]);
+    if (status === 'authenticated' && !userDetails?.canvasToken && needsCanvasToken) {
+      router.push('/setup');
+    }
+  }, [needsCanvasToken, router, status, userDetails]);
 
-  if (status === 'authenticated') {
+  if (needsCanvasToken) {
+    if (status === 'authenticated' && !!userDetails?.canvasToken) {
+      return children;
+    }
+  } else if (status === 'authenticated') {
     return children;
   }
 
