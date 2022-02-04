@@ -37,6 +37,7 @@ const globalStyles = globalCss({
 
 const Notion = ({ items }: InferGetServerSidePropsType<typeof getServerSideProps>) => {
   globalStyles();
+
   return (
     <Container>
       {items?.map((item) => {
@@ -59,7 +60,7 @@ const Notion = ({ items }: InferGetServerSidePropsType<typeof getServerSideProps
                 <Avatar.Root tw="w-[15px] h-[15px] rounded-full inline-flex items-center justify-center align-middle overflow-hidden border">
                   <Avatar.Image src={item.author.avatar_image_url} tw="w-full h-full" />
                   <Avatar.Fallback tw="w-full h-full  flex items-center justify-center text-sm">
-                    {item.author.display_name.split(' ')[0][0]}
+                    {item.author.display_name?.split(' ')[0][0]}
                   </Avatar.Fallback>
                 </Avatar.Root>
                 <span tw="text-xs ml-2">{item.author.display_name}</span>
